@@ -1,0 +1,317 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+			
+	<div class="content">
+		<div class="panel-header bg-secondary-gradient">
+			<div class="page-inner py-5">
+				<div class="page-header">
+					<h4 class="page-title">Tresholds</h4>
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="#">
+								<i class="flaticon-home"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Fix values</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Tresholds</a>
+						</li>
+					</ul>
+				</div>
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="text-white pb-2 fw-bold"> Fix threshold values</h2>
+						<h5 class="text-white op-7 mb-2"></h5>
+					</div>
+					<div class="ml-md-auto py-2 py-md-0">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="page-inner mt--5">
+			{% if msg %}
+                <span class="text-danger">{{ msg | safe }}</span>
+			{% endif %}
+            <form method="post" action="{% url 'traitement' %}">
+				{% if msg %}
+                <span class="text-danger">{{ msg | safe }}</span>
+				{% endif %}
+				{% csrf_token %}
+                	<div class="row row-card-no-pd card-pricing bg-testing" >
+                    
+                        <div class="col-md-12 ">
+                            <h4 class="card-title">{{ pcom.NomPerf }} axis indicators </h4>
+							<details style="cursor: pointer;">
+							<summary>Show Indicators</summary>
+                            {% for x in pcom.ListeKPI %}
+								{% if x.Type == 1 %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} particulier</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfCom,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} entreprise</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfCom,Seuil_KPI_Entr" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% else %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }}</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfCom,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% endif %}
+                            {% endfor %}
+							</details>
+                        </div>
+					</div>
+					<div class="row row-card-no-pd card-pricing bg-testing">
+                        <div class="col-md-12">
+                            <h4 class="card-title">{{ psoc.NomPerf }} axis indicators</h4>
+							<details style="cursor: pointer;">
+							<summary>Show Indicators</summary>
+                            {% for x in psoc.ListeKPI %}
+								{% if x.Type == 1 %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} particulier</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfSoc,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} entreprise</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfSoc,Seuil_KPI_Entr" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% else %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }}</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfSoc,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% endif %}
+                            
+                            {% endfor %}
+							</details>
+                        </div>
+					</div>
+					<div class="row row-card-no-pd card-pricing bg-testing">
+                        <div class="col-md-12">
+                            <h4 class="card-title">{{ pconc.NomPerf }} axis indicators</h4>
+							<details style="cursor: pointer;">
+							<summary>Show Indicators</summary>
+                            {% for x in pconc.ListeKPI %}
+								{% if x.Type == 1 %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} particulier</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},pconc,PerfConc,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} entreprise</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},pconc,PerfConc,Seuil_KPI_Entr" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% else %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }}</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfConc,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% endif %}
+                            {% endfor %}
+							</details>
+                        </div>
+					</div>
+					<div class="row row-card-no-pd card-pricing bg-testing" >
+						<div class="col-md-12">
+                            <h4 class="card-title">{{ penv.NomPerf }} axis indicators</h4>
+							<details style="cursor: pointer;">
+							<summary>Show Indicators</summary>
+                            {% for x in penv.ListeKPI %}
+								{% if x.Type == 1 %}
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} particulier</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfEnv,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+									<div class="form-group form-inline">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }} entreprise</label>
+										<div class="col-md-9 p-0">
+											<input type="text" class="form-control input-full" name="{{ x.Nom_KPI }},PerfEnv,Seuil_KPI_Entr" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% else %}
+									<div class="form-group form-inline ">
+										<label for="inlineinput" class="col-md-3 col-form-label">{{ x.Nom_KPI }}</label>
+										<div class="col-md-9 p-0 ">
+											<input type="text" class="form-control input-full " name="{{ x.Nom_KPI }},PerfEnv,Seuil_KPI" id="{{ x.Nom_KPI }}" placeholder="Enter threshold value">
+										</div>
+									</div>
+								{% endif %}
+                            {% endfor %}
+							</details>
+                        </div>
+					</div>
+					<div class="card-action">
+						<button type="submit" class="btn btn-success">Submit</button>
+						&nbsp; &nbsp;
+						
+					</div>
+                    
+                </div>
+                
+            </form>    
+			<div class="row">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+
+				</div>
+				<div class="col-md-6">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo.js"></script>
+	<script src="/static/assets/js/demo.js"></script>
+
+	<script>
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:60,
+			maxValue:100,
+			width:7,
+			text: 5,
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:70,
+			maxValue:100,
+			width:7,
+			text: 36,
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:40,
+			maxValue:100,
+			width:7,
+			text: 12,
+			colors:['#f1f1f1', '#F25961'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+
+		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+			type: 'bar',
+			data: {
+				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+				datasets : [{
+					label: "Total Income",
+					backgroundColor: '#ff9e27',
+					borderColor: 'rgb(23, 125, 255)',
+					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						},
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}],
+					xAxes : [ {
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}]
+				},
+			}
+		});
+
+		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
+			type: 'line',
+			height: '70',
+			width: '100%',
+			lineWidth: '2',
+			lineColor: '#ffa534',
+			fillColor: 'rgba(255, 165, 52, .14)'
+		});
+	</script>
+
+{% endblock javascripts %}

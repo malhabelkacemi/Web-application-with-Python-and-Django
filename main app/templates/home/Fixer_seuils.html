@@ -1,0 +1,469 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Tables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title">Tables</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="#">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Kpi Tables</a>
+					</li>
+
+				</ul>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Kpi commercial</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+								The table view below represents the commercial performance indicators :
+							</div>
+							<table class="table mt-3 table-head-bg-primary mt-1" id="tableCommercial">
+
+								<thead>
+									<tr>
+										<th scope="col">Kpi Name</th>
+										<th scope="col">Threshold</th>
+										<th scope="col">Objectif</th>
+									</tr>
+								</thead>
+								<tbody>
+								   {% for x in ListKpi %}
+										<tr>
+											<td class="tdd" > {{ x.NomKpi }}  </td>
+											<td  class="tdd"> {{ x.seuil }}</td>
+											<td  class="tdd"> {{x.objectif}} </td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Kpi concurrentiel</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+								The table view below represents the competitive performance indicators :
+							</div>
+					  <table class="table mt-3 table-head-bg-primary mt-1 table-hover" id="tableConcurrentiel">
+								<thead>
+									<tr>
+										<th scope="col">Kpi Name</th>
+										<th scope="col">Threshold</th>
+										<th scope="col">Objectif</th>
+									</tr>
+								</thead>
+								<tbody>
+								   {% for x in ListKpi %}
+										<tr>
+											<td class="tdd" > {{ x.NomKpi }}  </td>
+											<td  class="tdd"> {{ x.seuil }}</td>
+											<td  class="tdd"> {{x.objectif}} </td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Kpi social</div>
+						</div>
+						<div class="card-body">
+								<div class="card-sub">
+								The table view below represents the social performance indicators :
+							</div>
+							<table class="table mt-3 table-head-bg-primary mt-1 table-hover" id="tableSocial">
+								<thead>
+									<tr>
+										<th scope="col">Kpi Name</th>
+										<th scope="col">Threshold</th>
+										<th scope="col">Objectif</th>
+									</tr>
+								</thead>
+								<tbody>
+								   {% for x in ListKpi %}
+										<tr>
+											<td class="tdd" > {{ x.NomKpi }}  </td>
+											<td  class="tdd"> {{ x.seuil }}</td>
+											<td  class="tdd"> {{x.objectif}} </td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							</table>
+
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Kpi environnemental</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+							  The table view below represents the environmental performance indicators :
+							</div>
+							<table class="table mt-3 table-head-bg-primary mt-1 table-hover "  id="tableEnvironnemental">
+								<thead>
+									<tr>
+										<th scope="col">Kpi Name</th>
+										<th scope="col">Threshold</th>
+										<th scope="col">Objectif</th>
+									</tr>
+								</thead>
+								<tbody>
+								   {% for x in ListKpi %}
+										<tr>
+											<td class="tdd" > {{ x.NomKpi }}  </td>
+											<td  class="tdd"> {{ x.seuil }}</td>
+											<td  class="tdd"> {{x.objectif}} </td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							</table>
+
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+	<script>
+
+	 var table1 = document.getElementById("tableCommercial");
+	 var table2 = document.getElementById("tableSocial");
+	 var table3 = document.getElementById("tableConcurrentiel");
+	 var table4 = document.getElementById("tableEnvironnemental");
+	 var rIndex,cIndex;
+
+
+     //Commerciiiial
+      for(var i = 1; i < table1.rows.length; i++) // rows
+            {
+                for(var j = 1; j < table1.rows[i].cells.length; j++)  // row cells
+                {
+                    table1.rows[i].cells[j].onclick = function()
+                    {
+					     if(this.hasAttribute('data_clicked'))
+						   {
+								return;
+						   }
+						rIndex = this.parentElement.rowIndex;
+                        cIndex = this.cellIndex;
+                        rIndex=rIndex-1;
+                        console.log("Row : "+rIndex+" , Cell : "+cIndex);
+		  			    this.setAttribute('data-clicked','yes');
+						   this.setAttribute('data-text',this.innerHTML);
+
+						   var input= document.createElement('input');
+						   input.setAttribute('type','text');
+						   input.value=this.innerHTML;
+
+
+						    input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value;
+
+							if(org != current_Text) {
+
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=current_Text;
+								//td.style.cssText= 'padding : 0 px' ;
+								console.log(org + 'is changed to ' +current_Text);
+								alert("user updated ");
+							}
+
+							else {
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=org;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log('No changes made ');
+
+							}
+
+						   }
+
+						input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+					   this.innerHTML='';
+					   this.append(input);
+					   this.firstElementChild.select();
+				  };
+                }
+            }
+
+
+		//Social
+      for(var i = 1; i < table2.rows.length; i++) // rows
+            {
+                for(var j = 1; j < table2.rows[i].cells.length; j++)  // row cells
+                {
+                    table2.rows[i].cells[j].onclick = function()
+                    {
+					     if(this.hasAttribute('data_clicked'))
+						   {
+								return;
+						   }
+						rIndex = this.parentElement.rowIndex;
+                        cIndex = this.cellIndex;
+                        rIndex=rIndex-1;
+                        console.log("Row : "+rIndex+" , Cell : "+cIndex);
+		  			    this.setAttribute('data-clicked','yes');
+						   this.setAttribute('data-text',this.innerHTML);
+
+						   var input= document.createElement('input');
+						   input.setAttribute('type','text');
+						   input.value=this.innerHTML;
+
+
+						    input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value;
+
+							if(org != current_Text) {
+
+
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=current_Text;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log(org + 'is changed to ' +current_Text);
+								alert("user updated ");
+							}
+
+							else {
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=org;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log('No changes made ');
+
+							}
+						   }
+
+						input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+					   this.innerHTML='';
+					   this.append(input);
+					   this.firstElementChild.select();
+				  };
+                }
+            }
+
+
+
+//Concurrentiel
+
+      for(var i = 1; i < table3.rows.length; i++) // rows
+            {
+                for(var j = 1; j < table3.rows[i].cells.length; j++)  // row cells
+                {
+                    table3.rows[i].cells[j].onclick = function()
+                    {
+					     if(this.hasAttribute('data_clicked'))
+						   {
+								return;
+						   }
+						rIndex = this.parentElement.rowIndex;
+                        cIndex = this.cellIndex;
+                        rIndex=rIndex-1;
+                        console.log("Row : "+rIndex+" , Cell : "+cIndex);
+		  			    this.setAttribute('data-clicked','yes');
+						   this.setAttribute('data-text',this.innerHTML);
+
+						   var input= document.createElement('input');
+						   input.setAttribute('type','text');
+						   input.value=this.innerHTML;
+
+
+						    input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value;
+
+							if(org != current_Text) {
+
+
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=current_Text;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log(org + 'is changed to ' +current_Text);
+								alert("user updated ");
+							}
+
+							else {
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=org;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log('No changes made ');
+
+							}
+						   }
+
+						input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+					   this.innerHTML='';
+					   this.append(input);
+					   this.firstElementChild.select();
+				  };
+                }
+            }
+
+
+//environnemental
+
+
+    for(var i = 1; i < table4.rows.length; i++) // rows
+            {
+                for(var j = 1; j < table4.rows[i].cells.length; j++)  // row cells
+                {
+                    table4.rows[i].cells[j].onclick = function()
+                    {
+					     if(this.hasAttribute('data_clicked'))
+						   {
+								return;
+						   }
+						rIndex = this.parentElement.rowIndex;
+                        cIndex = this.cellIndex;
+                        rIndex=rIndex-1;
+                        console.log("Row : "+rIndex+" , Cell : "+cIndex);
+		  			    this.setAttribute('data-clicked','yes');
+						   this.setAttribute('data-text',this.innerHTML);
+
+						   var input= document.createElement('input');
+						   input.setAttribute('type','text');
+						   input.value=this.innerHTML;
+
+
+						    input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value;
+
+							if(org != current_Text) {
+
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=current_Text;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log(org + 'is changed to ' +current_Text);
+								alert("user updated ");
+							}
+
+							else {
+								td.removeAttribute('data-clicked');
+								td.removeAttribute('data-text');
+								td.innerHTML=org;
+								td.style.cssText= 'padding : 0 px' ;
+								console.log('No changes made ');
+
+							}
+						   }
+
+						input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+					   this.innerHTML='';
+					   this.append(input);
+					   this.firstElementChild.select();
+				  };
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$('#displayNotif').on('click', function(){
+			var placementFrom = $('#notify_placement_from option:selected').val();
+			var placementAlign = $('#notify_placement_align option:selected').val();
+			var state = $('#notify_state option:selected').val();
+			var style = $('#notify_style option:selected').val();
+			var content = {};
+
+			content.message = 'Turning standard Bootstrap alerts into "notify" like notifications';
+			content.title = 'Bootstrap notify';
+			if (style == "withicon") {
+				content.icon = 'fa fa-bell';
+			} else {
+				content.icon = 'none';
+			}
+			content.url = 'index.html';
+			content.target = '_blank';
+
+			$.notify(content,{
+				type: state,
+				placement: {
+					from: placementFrom,
+					align: placementAlign
+				},
+				time: 1000,
+			});
+		});
+	</script>
+	
+{% endblock javascripts %}

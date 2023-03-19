@@ -1,0 +1,371 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Datatables {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content">
+		<div class="page-inner"  style="background-color:#fff">
+
+			<div class="row" >
+				<div class="col-md-12" >
+					<div class="card" style=" background-image: linear-gradient(to bottom right,rgba(96,55,183,30),#26A2A7,gray,#26A2A7">
+						<div class="card-header  " >
+							<div class="d-flex align-items-center" >
+								<h4 class="card-title text-dark ml-3">The list of users </h4>
+								 <button class="btn btn-primary btn-round ml-auto "   style="color: white;margin-right:2%;"  onclick = "CreerUser()" > <i class="icon-user-follow"></i> Add User </button>
+							</div>
+						</div>
+
+
+						<div class="card-body" >
+
+							<div class="table-responsive pb-4" style="color:black; ">
+
+								<table id="TableReferentiel" class="display table table-striped table-hover pb-4 "  style=" background-color:#fff;color:black;font-size: 18px; font-weight:500"  >
+
+									<thead>
+										<tr  style="background-color:#A9A9F5">
+
+											<th>Username</th>
+											<th>Email</th>
+											<th>Role</th>
+											<th style="width: 10%">Edit</th>
+											<th style="width: 10%">Remove</th>
+										</tr>
+
+									</thead >
+									<tfoot >
+										<tr style="margin-top:12%;" >
+											<th  >Username</th>
+											<th>Email</th>
+											<th>Role</th>
+											<th></th>
+											<th></th>
+
+										</tr>
+									</tfoot>
+									<tbody >
+
+									  {% for x in users %}
+										<tr user_id="{{ x.id }}">
+											<td class="tdd" > {{ x.username }}  </td>
+
+											<td  class="tdd"> {{ x.email }}</td>
+
+											<td  class="tdd"> {{x.first_name}} </td>
+
+											<td >
+
+												<div class="form-button-action">
+												<button class="btn btn-link btn-success btn-lg" data-toggle="modal" data-target="#Edit_user">
+														<i class="fa fa-edit"></i>
+													</button>
+												</div>
+											</td>
+											<td>
+												<div>
+												<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove user" id="remove_user">
+														<i class="fa fa-times"></i>
+													</button>
+												</div>
+											</td>
+
+
+
+											</td>
+										</tr>
+										{% endfor %}
+
+
+
+								</tbody>
+
+								</table >
+							</div>
+
+
+
+				<div class="col-md-5 formuser"  id="formuser">
+						<div class="card-body" >
+							<!-- Modal -->
+							<div class="modal fade" id="Edit_user" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document" style="max-width: 34%!important;">
+									<div class="modal-content"  style="margin-top: 18%;margin-left:10%;">
+										<div class="modal-header no-bd" style="background-color:#white">
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1 text-dark">
+												Edit User
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "   style="background-color:#011F2C">
+
+						<div class=" container-fluid px-1  mx-auto"  >
+
+						 <form class="form-card " >
+							<div class="row justify-content-between text-left " style="margin-left:18%;">
+								<div class="form-group col-sm-10 flex-column d-flex">
+									<label class="form-control-label "><span class="text-light"> Username</span></label>
+									<input type="text" id="nameuser"  >
+
+	 								<label class="form-control-label "><span class="text-light">Email</span></label>
+									<input type="email" id="emailuser"  >
+
+									<label class="form-control-label "><span class="text-light">Role</span></label>
+									<select id="roleUser" class="selectpicker show-tick">
+									  <option value="admin" id="op1">admin</option>
+									  <option value="analyst" id="op2">analyst</option>
+									  <option value="decideur" id="op3">decideur</option>
+									</select>
+
+								</div>
+							</div>
+							 <button type="button"  style="margin-left:42%;"   class="btn-primary w-25"  onclick = "UpdateUser()" >Update </button>
+
+						 </form>
+
+
+						</div></div></div></div></div></div></div>
+
+
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+		</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<style>
+
+
+#p1 {
+	 font-size: 18px ;
+	 font-weight: 30;
+	 color:white;
+}
+div .TwoDivs:hover
+{
+ color:white;
+ font-weight: bolder;
+}
+
+
+
+</style>
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+	<script >
+
+
+function CreerUser() {
+    window.location="http://127.0.0.1:8000/register/";
+    }
+
+
+ var table = document.getElementById("TableReferentiel"),rIndex,cIndex;
+
+ const getCookie = (name) => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+    };
+
+  const CSRFTOKEN = getCookie("csrftoken");
+
+          // table rows
+            for(var i = 1; i < table.rows.length; i++)
+            {
+                // row cells
+                for(var j = 3; j <= 4; j++) //table.rows[i].cells.length
+                {
+                    table.rows[i].cells[j].onclick = function()
+                    {
+					     if(this.hasAttribute('data_clicked'))
+						   {
+								return;
+						   }
+						rIndex = this.parentElement.rowIndex;
+                        cIndex = this.cellIndex;
+                        rIndex=rIndex-1;
+                        console.log("Row : "+rIndex+" , Cell : "+cIndex);
+
+
+ 				    	// Supprimer user
+           		 		 if(cIndex==4){
+           		 		 var result = confirm("Want to delete?");
+					      if (result) {
+							org_email=table.rows[rIndex+1].cells[1].innerHTML;
+							console.log(org_email);
+
+
+									let form2 = new FormData();
+
+									form2.append("org_email", org_email);
+
+									fetch("remove_User/", {
+										method: "POST",
+										headers: {
+											"X-CSRFToken": CSRFTOKEN
+										},
+										body: form2
+									})
+									window.location.reload();
+						}
+							}
+
+                       if(cIndex==3){  //Update
+
+                          //afficher sur la fenetre les coordonnées de *user selectionné
+	        	           org_username=table.rows[rIndex+1].cells[0].innerHTML;
+
+	        	           document.getElementById('nameuser').value = org_username;
+
+						   org_email=table.rows[rIndex+1].cells[1].innerHTML;
+						   document.getElementById('emailuser').value = org_email;
+
+
+
+					   	   org_role=table.rows[rIndex+1].cells[2].innerHTML;
+
+
+                           if(org_role.trim()=="admin") {
+                            $(document).ready(()=>{
+								$("#roleUser option[value='admin']").attr('selected', 'selected');
+							});
+                           }
+
+                            if(org_role.trim()=="analyst") {
+                            $(document).ready(()=>{
+								$("#roleUser option[value='analyst']").attr('selected', 'selected');
+							});
+                           }
+
+                            if(org_role.trim()=="decideur") {
+                            $(document).ready(()=>{
+								$("#roleUser option[value='decideur']").attr('selected', 'selected');
+							});
+                           }
+
+
+
+
+          					 }
+
+						 //update
+				         else {
+							  input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value; }
+
+
+
+				  };
+                }
+            }}
+
+
+
+
+function UpdateUser(){
+
+						   //recuperation des modifications saisies
+						    var inputName= document.getElementById('nameuser').value;
+						    var inputEmail= document.getElementById('emailuser').value;
+							role = document.getElementById("roleUser");
+							SelectedRole= role.options[role.selectedIndex].value;
+							console.log(SelectedRole);
+
+					if(org_username.trim()== inputName.trim()   &&  org_email.trim()==inputEmail.trim() &&  SelectedRole==org_role.trim())
+					{
+
+							alert("No changes! ");
+							window.location.reload();
+					}
+					else
+					{
+							   let formData = new FormData();
+
+								formData.append("org_email", org_email);
+								formData.append("inputName", inputName);
+								formData.append("inputEmail", inputEmail);
+								formData.append("SelectedRole", SelectedRole);
+
+								fetch("update_info/", {
+									method: "POST",
+									headers: {
+										"X-CSRFToken": CSRFTOKEN
+									},
+									body: formData
+								})
+
+							    Alert("User updated successfully!!");
+								window.location.reload();
+
+						}
+
+				}
+
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#TableReferentiel').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+		});
+	</script>
+
+{% endblock javascripts %}

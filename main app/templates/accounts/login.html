@@ -1,0 +1,96 @@
+
+{% extends "layouts/base2.html" %}
+
+{% block title %} Login {% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="page-inner">
+        <div class="page-header">
+
+        </div>
+
+        <div class="row" style="opacity:78%;" >
+            <div class="col-md-11" >
+                <div class="card" style="background-image: linear-gradient(to bottom right,#191970,gray,gray,#B498AB,#191970); "  >
+                    <div class="card-header">
+                        <div class="card-title">
+
+                            {% if msg %}
+                                <span class="text-warning">{{ msg | safe }}</span>
+                            {% else %}
+                            <span >
+                                Login
+                            </span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <form method="post" action="">
+
+                        {% csrf_token %}
+
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-md-6 col-lg-10" >
+
+                                    <div class="form-group"   >
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="icon-user"></i>
+                                                </span>
+                                            </div>
+                                            {{ form.username }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group mb-1">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </div>
+                                            {{ form.password }}
+                                        </div>    
+                     <div class="card-action">
+                            <button type="submit" class="btn btn-primary" style="width:28%;font-size: 15px;">Login</button>
+                         </div>
+                                </div>
+                                 </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<style>
+
+.row {
+margin-left:8%;
+}
+
+.btn {
+margin-left:40%;
+}
+</style>
+
+{% endblock javascripts %}

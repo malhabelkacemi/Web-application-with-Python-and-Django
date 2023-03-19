@@ -1,0 +1,153 @@
+
+{% extends "layouts/base.html" %}
+
+{% block title %} Login {% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content" style="background-color:#F0EFF2;">
+    <div class="page-inner mt-4"  style="background-color:#F0EFF2;margin-left:8%;" >
+        <div class="page-header"  >
+
+
+        </div>
+        <div class="row" >
+            <div class="col-md-10" >
+                <div class="card ">
+                    <div class="card-header" style="background-color:#1B144B;">
+                        <div class="card-title">
+
+                            {% if msg %}
+                                <span class="text-danger">{{ msg | safe }}</span>
+                            {% else %}
+                            <span class="text-light" style="background-color:#1B144B;font-size: 20px;font-weight: bolder;">
+                                Fill in this form to add a new user
+                            </span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <form method="post" action="" style=" background-color:#ABB2B9" >
+
+                        {% csrf_token %}
+
+                        <div class="card-body">
+                            <div class="row " >
+                                <div class="col-md-6 col-lg-5 ml-5">
+
+                                    <div class="form-group" >
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="icon-user"></i>
+                                                </span>
+                                            </div>
+                                            {{ form.username }}
+                                        </div>
+                                    </div>
+                                    <span class="text-danger">{{ form.username.errors }}</span>
+                         <div   >
+                                    <div class="form-group" >
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </div>
+                                            {{ form.password1 }}
+                                        </div>
+                                    </div>
+                                    <span class="text-danger">{{ form.password1.errors }}</span>
+
+                                    <div class="form-group" >
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="icon-lock"></i>
+                                                </span>
+                                            </div>
+                                            {{ form.password2 }}
+                                        </div>
+                                    </div>
+                                    <span class="text-danger">{{ form.password2.errors }}</span>
+
+                                </div>
+</div>
+                            <div  style="display : inline" >
+                                    <div class="form-group ml-3 ">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="icon-envelope"></i>
+                                                </span>
+                                            </div>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                    <span class="text-danger">{{ form.email.errors }}</span>
+
+                                    <div class="form-group" >
+                                        <div class="input-group ml-3">
+                                            <div class="input-group-prepend">
+
+                                                <span class="input-group-text" >
+                                                   <label>Select a role for the user</label>
+                                                </span>
+                                            </div>
+
+                                            {{ form.first_name }}
+                                        </div>
+                                    </div>
+                                    <span class="text-danger">{{ form.first_name.errors }}</span>
+
+
+
+                                </div>
+
+                                </div>
+                        <div class=" row card-action" >
+                            <button style="margin-left:33%;width:16%;" type="submit"  class="btn btn-secondary "   >Submit</button>
+
+                             <button style="width:16%;"class="btn  btn-primary " onclick = "ListUser()">View list</button>
+
+                        </div>
+
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<style>
+.btn{
+  margin-left:3%;
+  width:12%;
+  color:black;
+  font-weight: 40;
+  font-size: 18px ;
+  font-weight: 90;
+}
+
+
+
+</style>
+<script>
+function ListUser() {
+    window.location="http://127.0.0.1:8000/Table_Users.html";
+    }
+</script>{% endblock javascripts %}

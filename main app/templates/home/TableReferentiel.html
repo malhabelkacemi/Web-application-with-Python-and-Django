@@ -1,0 +1,2288 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Evaluation _Performance {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+	<div class="content" style="color:#ECE8FE;">
+		<div class="page-inner" style="background-color:#ECE8FE">
+			<!--<div class="page-header" style="color:black; ">
+				<h4 class="page-title" style="color:black; ">DataTables</h4>
+				<ul class="breadcrumbs"  style=" background-color:EF9305">
+					<li class="nav-home" style="color:black;">
+						<a href="#" >
+							<i class="flaticon-home" style="color:black;"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#" style="color:black;">Tables</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#"style="color:black;">Datatables</a>
+					</li>
+				</ul>
+			</div>-->
+
+
+			<div class="row">
+				<div class="col-md-12"  >
+					<div class="card"  style=" background-image: linear-gradient(to bottom right,rgba(96,55,183,30),#26A2A7,gray,#26A2A7" >
+						<div class="card-header">
+							<h4 class="card-title">List indicators </h4>
+								<div class="d-flex align-items-center">
+								<h4 class="card-title">  </h4>
+                              <div class="row btnadd   ">
+								<button class="btn btn-outline-dark btn-round ml-auto mr-2 "  data-toggle="modal" data-target="#addRowModal">
+									<i class="fa fa-plus"></i>
+									Add Indicator
+								</button>
+
+
+
+
+  						    </div>
+  						    </div>
+						</div>
+						<div class="card-body" >
+
+							<div class="table-responsive">
+
+								<table id="TableReferentiel" class="display table table-striped table-hover pb-3" style="color:black; background-color: white ; font-size: 18px; font-weight:500" >
+
+									<thead  >
+										<tr  style="background-color:#A9A9F5">
+											<th class="col-3" style="color:black;font-weight:bolder; font-size: 16px">Performance</th>
+											<th style="color:black;font-weight:bolder; font-size: 16px">Name indicator</th>
+											<th style="color:black;font-weight:bolder; font-size: 16px">Description</th>
+											<th style="color:black;font-weight:bolder; font-size: 16px">Stakeholders</th>
+											<th style="color:black;font-weight:bolder; font-size: 16px">Function</th>
+											<th style="color:black;font-weight:bolder; font-size: 16px">Edit indicator</th>
+											<th style="color:black;font-weight:bolder; font-size: 16px">Remove indicator</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>Performance</th>
+											<th>Name Kpi</th>
+											<th>Description</th>
+											<th>Stakeholders</th>
+											<th>Function</th>
+											<th>  </th>
+											<th>  </th>
+										</tr>
+									</tfoot>
+									<tbody>
+
+									    {% for x in TablPerf %}
+										{% for j in x.ListeKPI %}
+									    <tr>
+												<td class="tdd" >{{x.NomPerf }}</td>
+												<td  class="tdd"> {{j.Nom_KPI }}</td>
+												<td  class="tdd"> {{j.Desc_KPI}} </td>
+												<td  class="tdd">
+													{% if j.Type == 1 %}
+														Subscribers
+
+													{% elif j.Type == 2 %}
+													   Employees
+
+													{% else %}
+														Others
+													{% endif %}
+ 												</td>
+												<td  class="tdd" >
+													<!--
+													style="width:20%;
+													{% if j.Fct_KPI|length > 1  %}
+													<div style="overflow:scroll;">
+													{% endif %}-->
+
+													 {{j.Fct_KPI}}
+												 </td>
+											<td >
+												<div class="form-button-action">
+												<button class="btn btn-link btn-success btn-lg" data-toggle="modal" data-target="#Edit_kpi">
+														<i class="fa fa-edit"></i>
+													</button>
+												</div>
+											</td>
+											<td>
+
+										      <div class="form-button-action">
+													<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove KPI" id="remove_KPI">
+														<i class="fa fa-times"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									  {% endfor %}
+									  {% endfor %}
+       					      	</tbody>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+			   <div class="col-md-12  formKpi" id="formKpi"   >
+						<div class="card-body"  id="cardd" >
+							<!-- Modal    -->
+							<div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog  " role="document" style="max-width: 57%!important;height:12%;" >
+
+
+									<div class="modal-content" style="margin-top: 14%;margin-left:10%;">
+										<div class="modal-header no-bd" style="background-color:#011F2C" >
+											<h5 class="modal-title" >
+												<span class="fw-mediumbold p1">
+												New</span>
+												<span class="fw-light p1">
+													Indicator
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" onclick="Quitter();" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body " >
+											<p class="small p1 text-dark" id="titleForm" >Create a new indicator using this form, make sure you fill in all the fields</p>
+				<div class=" container-fluid px-1  mx-auto" >
+
+                 <form class="form-card " id="regForm"  name="FRM"  onsubmit="event.preventDefault()" style="background-image: linear-gradient(to bottom right,#0C465F,#1A6181 ,gray,#A4BDC8,#D7E2E7 )">
+						<div class="tab">
+					<div class="row justify-content-between text-left">
+						<div class="form-group col-sm-6 flex-column d-flex" > <label class=" form-control-label px-1" ><span style="color:black;">Indicator name </span> <span class="text-danger"> *</span></label> <input type="text" id="addName"   onkeypress='javascript:ControleCoherence(event);' name="addName"  onfocus="myFunction()"placeholder="fill name" onblur="validate(1)"> </div>
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-1"><span style="color:black;">Indicator description</span> <span class="text-danger"> *</span></label> <input type="text" id="addDescr"  placeholder="fill description" onblur="validate(2)"> </div>
+                    </div>
+
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex">
+							<label class="form-control-label px-1"><span style="color:black;">Performance axis</span><span class="text-danger"> *</span></label>
+								<select multiple = "multiple"  name="selected[]"  id="select_Perf" >
+									   {% for x in TablPerf %}
+											 <td class="tdd" >{{x.NomPerf }}</td>
+									         <option value={{x.NomPerf}}>{{x.NomPerf }}</option>
+									   {% endfor %}
+								</select>
+						</div>
+                        <div class="form-group col-sm-6 flex-column d-flex">
+							<label class="form-control-label px-1"><span style="color:black;">Stakeholders :</span><span class="text-danger"> *</span>
+						</label>
+														  <select id="select_pp">
+															<option value="subscribers">subscribers</option>
+															<option value="Employees">Employees</option>
+															<option value="Others">Others</option>
+															</select>
+						</div>
+						</div>
+
+						<div class="row justify-content-between text-left">
+						</div>
+						</div>
+
+		<div class="tab" >
+
+		<div class="fct" style="margin-left:5%; ">
+		<span style="color:black;" class="ml-1">Enter a function that will calculate the values of this new indicator </span>
+        <div class="ecran">  </div>
+
+
+		<div class="touches scroll ml-2 " id="Touches">
+			<div class="touches2" id="touches2">
+            <button data-key="8" class="boutonAttr  btn-danger"><span aria-hidden="true">&times; </span> Clean</button>
+            <button data-key="9" class="boutonAttr btn-info"><span aria-hidden="true">&larr; </span> Del</button>
+            <button data-key="103" class="boutonAttr btnatg">sum</button>
+			<button data-key="104" class="boutonAttr btnatg">avg</button>
+			<button data-key="61" class="boutonAttr btnatg bouton1">0</button>
+			<button data-key="53" class="boutonAttr btnatg bouton1">(</button>
+            <button data-key="219" class="boutonAttr btnatg bouton1">)</button>
+			<button data-key="107" class="boutonAttr btnatg bouton1">+</button>
+            <button data-key="109" class="boutonAttr btnatg bouton1">-</button>
+			<button data-key="111" class="boutonAttr btnatg bouton1">/</button>
+			<button data-key="166" class="boutonAttr btnatg bouton1">*</button>
+			<button data-key="105" class="boutonAttr btnatg">count</button>
+
+            <button data-key="62" class="boutonAttr btnatg bouton1">1</button>
+            <button data-key="63" class="boutonAttr btnatg bouton1">2</button>
+            <button data-key="64" class="boutonAttr btnatg bouton1">3</button>
+            <button data-key="65" class="boutonAttr btnatg bouton1">4</button>
+            <button data-key="66" class="boutonAttr btnatg bouton1">5</button>
+            <button data-key="67" class="boutonAttr btnatg bouton1">6</button>
+            <button data-key="68" class="boutonAttr btnatg bouton1">7</button>
+            <button data-key="69" class="boutonAttr btnatg bouton1">8</button>
+			<button data-key="70" class="boutonAttr btnatg bouton1">9</button>
+
+			   <div class="toucheAttributs" id="toucheAttributs">
+
+			</div>
+		</div>
+
+       </div>
+			</div>
+
+						</div>
+				<div style="overflow:auto;">
+				  <div style="float:right;margin-top:2%; margin-right:12%;">
+					<button type="button" id="prevBtn" class="btn btn-warning " onclick="nextPrev(-1)">Previous</button>
+					<button type="button" id="nextBtn" class="btn btn-primary suivantBtn"  onclick="nextPrev(1)">Next</button>
+         			<button type="button" data-toggle="tooltip" id="Btn_valid" class="btn btn-secondary addkpiButton"  onclick="Add();">Validate</button>
+
+				  </div>
+				</div>
+
+				<!-- Circles which indicates the steps of the form: -->
+				<div style="text-align:center;margin-top:20px;">
+				  <span class="step"></span>
+				  <span class="step"></span>
+				</div>
+
+             </form>
+				</div>
+
+
+			</div>
+
+									</div>
+								</div>
+							</div>
+
+							</div>
+						</div>
+
+				</div>
+
+
+			<div class="col-md-5 formIndicator"  id="formIndicator">
+						<div class="card-body" >
+							<!-- Modal -->
+							<div class="modal fade" id="Edit_kpi" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content" style="margin-top: 36%;margin-left:8%;">
+										<div class="modal-header no-bd"  style="background-color:#white">
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1 text-dark">
+												Edit</span>
+												<span class="fw-light p1 text-dark">
+													  Indicator
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" onclick="Quitter()" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body"   style="background-color:#011F2C">
+
+						<div class=" container-fluid px-1  mx-auto " >
+
+						 <form class="form-card " >
+							<div class="row justify-content-between text-left">
+								<div class="form-group col-sm-7 flex-column d-flex col-md-8 mx-auto">
+
+									<label class="form-control-label " > Name indicator</label>
+									<input type="text" id="NameIndicator">
+
+								<label class="form-control-label ">Performance(Axis)</label>
+								<select multiple = "multiple" name="selected[]" id="namePerf" >
+										{% for x in TablPerf %}
+											 <td class="tdd" >{{x.NomPerf }}</td>
+									         <option value={{x.NomPerf}}>{{x.NomPerf }}</option>
+									    {% endfor %}
+								</select>
+
+
+
+									<label class="form-control-label "><span class="text-light">Description</span></label>
+									<input type="text" id="NameDescr">
+								</div>
+
+							 <!-- <div class="form-group col-sm-6 flex-column d-flex col-md-8 mx-auto">
+								<label class="form-control-label px-1" ><span class="text-dark">Function:	</span></label>
+								  <input type="text" id="expr">
+								</div>-->
+
+
+							</div>
+
+							<div class="col-md-3 mx-auto" style="padding-bottom:3%;">
+							 <button type="button" data-toggle="tooltip"  id="btnModif"  class="btn btn-outline-primary"  onclick = "UpdateIndicator()" >Update </button>
+                            </div>
+
+						 </form>
+
+
+						</div></div></div></div></div></div>
+		</div>
+
+
+		</div>
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<style>
+
+#Btn_valid{
+visibility:hidden;
+}
+
+#regForm {
+  background-color: black;
+  margin: 8px auto;
+  width:auto;
+  padding: 8px;
+}
+
+/* Style the input fields */
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+/*input.invalid {
+  background-color: red;
+}
+*/
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: yellow;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: blue;
+}
+
+
+
+
+select option:checked{
+background: #1aab8e -webkit-linear-gradient(bottom, #1aab8e 0%, #1aab8e 100%);
+}
+
+
+.scroll{
+max-height:230px;
+overflow-y:auto;
+}
+
+
+
+.p1 {
+	 font-size: 18px !important;
+	 font-weight: 100;
+}
+
+.btns {
+margin-right:30%;
+}
+.btnadd {
+margin-left:85%;
+}
+.addkpiButton{
+color:black;
+font-size: 14px;
+font-weight: bold;
+}
+#cardd{
+width:80%;
+
+}
+.modal-body{
+padding:1%;
+padding-top:0%;
+padding-bottom:0%;
+}
+
+
+.fct {
+  display: flex;
+  flex-direction: column;
+  padding-bottom:1px;
+  border-radius: 6px;
+
+}
+
+.ecran {
+  width: 91%;
+  height: 45px;
+  background-color: rgb(198, 237, 255);
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 25px;
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-end;
+  font-size: 16px;
+  color:black;
+}
+
+.touches {
+width:100%;
+ // display: grid;
+ // grid-template-columns: repeat(4, 155px);
+  //grid-template-rows: repeat(2, 36px);
+//  grid-gap: 2px;
+}
+
+.touches2 {
+  display: grid;
+  grid-template-columns: repeat(9,67.8px);
+  grid-template-rows: repeat(3, 30px);
+  grid-gap: 3px;
+
+}
+
+.toucheAttributs {
+  display: grid;
+  grid-template-columns: repeat(9,67.8px);
+  grid-template-rows: repeat(3, 30px);
+  grid-gap: 3px;
+
+  //border-style:solid;
+}
+
+.boutonAttr {
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  background-color: #f7f7f7;
+  box-shadow: 0 3px #a8a8a8;
+ // font-size: 14px;
+  font-weight: bold;
+
+}
+
+
+.btnAttr2{
+grid-column: span 3;
+
+}
+.boutonAttr:hover{
+background-color: rgb(198, 237, 255);
+}
+
+
+.boutonAttr:active {
+  box-shadow: 0 1px #a8a8a8;
+  transform: translateY(2px);
+}
+
+.boutonAttr[data-key="8"] {
+  //background-color: #ff9900;
+  grid-column: span 2;
+  //grid-row: span 2;
+  color: black;
+  font-weight:bolder;
+  font-size: 16x;
+}
+.boutonAttr[data-key="9"] {
+  grid-column: span 2;
+  font-weight: bold;
+  color: black;
+  font-size: 16px;
+}
+
+.btnatg
+{
+  background-color: white;
+  color: black;
+}
+button[data-key="103"] {
+  grid-column: span 2;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+button[data-key="105"] {
+  grid-column: span 2;
+  font-size: 14px;
+  font-weight: bold;
+}
+button[data-key="104"] {
+  grid-column: span 2;
+  font-size: 14px;
+  font-weight: bold;
+}
+button[data-key="70"] {
+  grid-column: span 2;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+
+</style>
+
+
+	<script src="/static/assets/js/setting-demo2.js"></script>
+
+	<script>
+
+
+
+
+
+
+
+
+
+
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form ...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  // ... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("titleForm").style.visibility="visible";
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("Btn_valid").style.visibility="visible";
+    document.getElementById("nextBtn").disabled = true;
+
+    document.getElementById("Btn_valid").disabled = false;
+    document.getElementById("titleForm").style.visibility="hidden";
+  } else {
+ 	 document.getElementById("titleForm").style.visibility="visible";
+     document.getElementById("nextBtn").disabled = false;
+     document.getElementById("Btn_valid").disabled = true;
+
+    document.getElementById("nextBtn").innerHTML = "Next";
+
+
+  }
+  // ... and run a function that displays the correct step indicator:
+  fixStepIndicator(n);
+
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  if( full==1 && existInReferentiel==0) {
+  currentTab = currentTab + n;
+
+  }
+  // if you have reached the end of the form... :
+
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    document.getElementById("regForm").submit();
+
+    return false;
+  }
+  // Otherwise, display the correct tab:
+
+  showTab(currentTab);
+
+  Suivant();
+
+
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+
+ 				$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Make sure you fill in all the fields ! ',
+					},{
+						type: 'danger',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+      // and set the current valid status to false:
+      valid = false;
+
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+
+  }
+
+
+  return valid; // return the valid status
+
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class to the current step:
+
+  x[n].className += " active";
+
+}
+
+
+
+
+
+
+bool=0;//taper btn entrée ?
+b=0; //si kpi existe dans le metadonnees?
+var Control_Perf =[];
+var Controle_Stakeholders =[];
+var partie_pren;
+let Metadata = {{ Metadata | safe }};
+var existInReferentiel=0;
+l2=[];
+function ControleCoherence(event)
+ {
+			var keycode;
+			keycode = event.which;
+			if (window.event){
+				keycode = window.event.keyCode;
+			}
+
+				var Name_kpi = document.getElementById("addName").value;
+				Name_kpi = Name_kpi.toLowerCase();
+				//console.log(Name_kpi);
+			    document.getElementById('select_Perf').selectedIndex=-1;
+
+			if ( keycode == 13 ){ //si le concepteur clique sur le bouton entrée , on lui afficher des pro des types de perf et stakeholders correspondant au nom du kpi saisi
+     			existInReferentiel= verif_Existance_Kpi_dans_Referentiel(Name_kpi);
+     			//console.log(existInReferentiel);
+			    bool=1;
+				document.forms["FRM"].elements["addDescr"].focus();
+
+				for(var k = 0; k <Metadata.length ; k++)
+				{
+				 // console.log(Metadata[k]["Liste_KPI"])
+
+				 if(Metadata[k]["Liste_KPI"].includes(Name_kpi)|| Metadata[k]["Liste_KPI"].includes(Name_kpi.replaceAll(" ","_")) ) // tester si le nom de kpi saisi existe dans le metadonnees
+					{
+						console.log(Metadata[k]["Nom_Axe"])
+						Control_Perf.push(Metadata[k]["Nom_Axe"]);
+
+						console.log(Metadata[k]["Stakeholders"])
+						Controle_Stakeholders.push(Metadata[k]["Stakeholders"]);
+						b=1;
+					}
+	          	}
+
+                arr2=[];
+	          	Controle_Stakeholders=Controle_Stakeholders.toString();
+	          	Controle_Stakeholders=Controle_Stakeholders.split(",");
+                console.log(Controle_Stakeholders)
+                 for(var k = 0; k <Controle_Stakeholders.length ; k++)
+				{
+				  arr2[k]=Controle_Stakeholders[k].trim();
+				}
+				Controle_Stakeholders=[];
+				Controle_Stakeholders=arr2;
+
+
+       if(b==0)   // si le nom de kpi saisi n'existe pas dans le metadonnées
+       {
+   				$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'This indicator doesn t exist in the metadata , fill in the form ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+       }
+
+       else
+       {  // si le nom de kpi saisi existe dans le metadonnées
+
+
+			  for ( i = 0; i < Control_Perf.length; i++ )
+			  {
+			     console.log(Control_Perf[i]);
+			  }
+		     var cr, i, j,
+
+
+
+			 values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("select_Perf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Control_Perf.length; k++ )
+                    {
+						if(Control_Perf[k].trim()==values[i].trim())
+						 {
+							   //console.log(Control_Perf[k]);
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+			// pour les parties prennantes
+			   partie_pren=Controle_Stakeholders[0];
+
+			   console.log(partie_pren);
+
+               if(partie_pren.trim()=="employees") {
+
+                            $(document).ready(()=>{
+								$("#select_pp option[value='Employees']").attr('selected', 'selected');
+							});
+                 }
+               if(partie_pren.trim()=="others") {
+
+                            $(document).ready(()=>{
+								$("#select_pp option[value='Others']").attr('selected', 'selected');
+							});
+                 }
+               if(org_pprenante.trim()=="subscribers") {
+
+                            $(document).ready(()=>{
+								$("#select_pp option[value='subscribers']").attr('selected', 'selected');
+							});
+                }
+
+
+     }
+   }
+
+}
+
+
+function verif_Existance_Kpi_dans_Referentiel(Nom_kpi )
+{
+     arr=[];
+     exist=0;
+	 for(i=0;i<TablPerf.length;i++)
+		 {
+		       arr=[];
+
+		       console.log(TablPerf[i]['ListeKPI']);
+		       for(m=0;m<TablPerf[i]['ListeKPI'].length;m++)
+                     {
+                       a=TablPerf[i]['ListeKPI'][m]['Nom_KPI'];
+
+                       arr.push(a.toLowerCase().trim());
+                     }
+			   /*for(j=0;j<arr.length;i++)
+				 {
+					NomIndicateur=arr[j]['Nom_KPI'];
+					NomIndicateur=arr[j]['Nom_KPI'];
+					arr.push(NomIndicateur.toLowerCase().trim());
+				 }*/
+				 if(arr.includes(Nom_kpi))
+				 {
+					 exist=1;
+					 //console.log(exist);
+					 break;
+				 }
+
+
+		 }
+	 return exist;
+}
+
+var full = 0;
+l2=[];
+
+function Suivant()
+{
+ full = 0;
+
+	 var Name_kpi = document.getElementById("addName").value;
+	 Name_kpi = Name_kpi.toLowerCase()
+
+
+	 var Descr = document.getElementById("addDescr").value;
+
+
+	 //Recuperer les perf selectionnées (lors de l'ajout d'un nvx KPI)
+	 var selected =[];
+	 var ChoixCd = document.getElementById("select_Perf");
+	 for(i=0;i<ChoixCd.options.length;i++)
+	 {
+	   if (ChoixCd.options[i].selected)
+		 {
+			 selected.push(ChoixCd.options[i].value );
+		 }
+		}
+ 		 /*console.log("perf");
+		  for (var i = 0; i < selected.length; i++) {
+			 console.log(selected[i]);
+	       }*/
+
+
+
+ // recuperer la pp selectionnée
+ pp = document.getElementById("select_pp").options[document.getElementById('select_pp').selectedIndex].text;
+ pp=pp.toLowerCase();
+
+
+//Controle_Stakeholders.pop(-1);
+console.log("Controle_Stakeholders");
+console.log(Controle_Stakeholders);
+console.log(selected.length);
+
+ if (Name_kpi.trim()=="" ||  Descr=="" || selected.length==0)
+ {
+
+     					$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Make sure you fill in all the fields ! '},{
+						type: 'danger',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+  }
+
+ else //if (Name_kpi.trim()!="" &&  Descr!="" && selected.length!=0)
+ {
+				for(var k = 0; k <Metadata.length ; k++)
+				{
+				 // console.log(Metadata[k]["Liste_KPI"])
+
+				 if(Metadata[k]["Liste_KPI"].includes(Name_kpi)|| Metadata[k]["Liste_KPI"].includes(Name_kpi.replaceAll(" ","_")) ) // tester si le nom de kpi saisi existe dans le metadonnees
+					{
+						console.log(Metadata[k]["Nom_Axe"])
+						Control_Perf.push(Metadata[k]["Nom_Axe"]);
+
+						console.log(Metadata[k]["Stakeholders"])
+						Controle_Stakeholders.push(Metadata[k]["Stakeholders"]);
+						b=1;
+					}
+
+	          	}
+                arr2=[];
+	          	Controle_Stakeholders=Controle_Stakeholders.toString();
+	          	Controle_Stakeholders=Controle_Stakeholders.split(",");
+                console.log(Controle_Stakeholders)
+                 for(var k = 0; k <Controle_Stakeholders.length ; k++)
+				{
+				  arr2[k]=Controle_Stakeholders[k].trim();
+				}
+				Controle_Stakeholders=[];
+				Controle_Stakeholders=arr2;
+
+
+       if(bool==0)  //sans taper sur Entrée
+        {
+
+
+     			existInReferentiel= verif_Existance_Kpi_dans_Referentiel(Name_kpi);
+     			console.log(existInReferentiel);
+
+
+
+    if(existInReferentiel == 0) // s'il n existe pas dans le referentiel
+	  {
+          if (b==0){ //cas de nouveau kpi dans le metadonnes
+
+              full=1; //pour passer à l'autre etape pour saisir la fct
+
+             }
+
+           if(b==1) { // cas de kpi existant dans le metadonnees
+
+			    bool=0;
+
+				document.forms["FRM"].elements["addDescr"].focus();
+
+
+           console.log("Controle_Stakeholders");
+           console.log(Controle_Stakeholders);
+
+		   var a=0;
+		   if(selected.length==Control_Perf.length)
+		   {
+				 for(i=0;i<selected.length;i++)
+				 {
+				   if(Control_Perf.includes(selected[i]))
+					 {
+					   a=a+1;
+					 }
+				 }
+
+				 if(a==Control_Perf.length)
+				  {
+						if(Controle_Stakeholders.includes(pp))
+						 {
+							console.log("c est coherent");
+							full=1;
+						 }
+						else
+						 {
+
+						$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder is inconsistent ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+							full=0;
+						 }
+				  }
+				 else
+				  {
+						 if(Controle_Stakeholders.includes(pp))
+						 {
+
+						$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+							full=0;
+						 }
+						else
+						 {
+
+					$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder and the performance type are inconsistent ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+							full=0;
+						 }
+				  }
+		   }
+
+		   if(selected.length>Control_Perf.length)
+            {
+						 if(Controle_Stakeholders.includes(pp))
+						 {
+					$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+							full=0;
+						 }
+						else
+						 {
+					$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder and the performance type are inconsistent ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+							full=0;
+						 }
+		    }
+
+		   if(selected.length==1)
+            {
+				   if(Control_Perf.includes(selected[0]))
+					 {
+						if(Controle_Stakeholders.includes(pp))
+						 {
+							console.log("c est coherent");
+
+							full=1;
+						 }
+						else
+						 {
+							$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder is inconsistent ! ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+							full=0;
+
+						 }
+					 }
+
+
+				   else
+				     {
+						 if(Controle_Stakeholders.includes(pp))
+						 {
+
+								$.notify({
+									icon: 'flaticon-alarm-1',
+									title: 'Warning',
+									message: 'The selected performance type is inconsistent ! ',
+								},{
+									type: 'warning',
+									placement: {
+										from: "top",
+										align: "center"
+									},
+									time: 20000,
+								});
+										full=0;
+						  }
+						else
+						 {
+						$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder and the performance type are inconsistent! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+							full=0;
+						 }
+				     }
+
+		    }
+			}
+			}
+
+			 else
+			{
+
+			  	$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'This indicator  exists in the repository , try to add a new one ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+			  bool =0;
+			  b =0;
+			  existInReferentiel =0;
+			  Control_Perf =[];
+			  Controle_Stakeholders =[];
+			  document.getElementById('select_Perf').selectedIndex=-1;
+			  document.getElementById('addName').value = "";
+			  document.getElementById('addDescr').value = "";
+			}
+
+         }
+
+
+
+       else  //bool ==1
+
+	if(existInReferentiel==0) //n existe pas dans le referentiel
+	{
+       if(b==0)
+        {
+
+              b = 0;
+              full=1; //pour passer a l autre etape pour saisir la fct
+        }
+
+       else
+           {
+
+           console.log("Controle_Stakeholders");
+           console.log(Controle_Stakeholders);
+           full=1;
+		   var a=0;
+		   if(selected.length==Control_Perf.length)
+		   {
+				 for(i=0;i<selected.length;i++)
+				 {
+				   if(Control_Perf.includes(selected[i]))
+					 {
+					   a=a+1;
+					 }
+				 }
+
+				 if(a==Control_Perf.length)
+				  {
+						if(Controle_Stakeholders.includes(pp))
+						 {
+							console.log("c est coherent");
+							full=1;
+						 }
+						else
+						 {
+						    full=0;
+								$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder is inconsistent ! ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+				  }
+				 else
+				  {
+						 if(Controle_Stakeholders.includes(pp))
+						 {
+							full=0;
+									$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+						else
+						 {
+							full=0;
+						$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder and the performance type are inconsistent ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+				  }
+		   }
+
+		   if(selected.length>Control_Perf.length)
+            {
+						 if(Controle_Stakeholders.includes(pp))
+						 {
+							full=0;
+							$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+						else
+						 {
+							full=0;
+						$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder and the performance type are inconsistent ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+		    }
+
+		   if(selected.length==1)
+            {
+				   if(Control_Perf.includes(selected[0]))
+					 {
+						if(Controle_Stakeholders.includes(pp))
+						 {
+							console.log("c est coherent");
+							full=1;
+						 }
+						else
+						 {
+						    full=0;
+								$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder is inconsistent ! ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+						 }
+					 }
+
+
+				   else
+				     {
+						 if(Controle_Stakeholders.includes(pp))
+						 {
+						    full=0;
+							$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+						else
+						 {  full=0;
+							$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected stakeholder and the performance type are inconsistent ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+						 }
+				     }
+		    }
+		    }
+        }
+
+			 else
+			{
+
+			 	$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'This indicator  exists in the repository , try to add a new one ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+
+
+			  bool =0;
+			  b =0;
+			  existInReferentiel =0;
+			  Control_Perf =[];
+			  Controle_Stakeholders =[];
+			  document.getElementById('select_Perf').selectedIndex=-1;
+			  document.getElementById('addName').value = "";
+			  document.getElementById('addDescr').value = "";
+			}
+
+
+}
+
+
+if(full==1 && existInReferentiel==0 ) {
+
+
+   touc= document.getElementById("toucheAttributs");
+   //touc.style.width='100%';
+   touc.innerHTML = "";
+   let Metadata = {{ Metadata | safe }};
+   ListAttributes=[];
+ 		 console.log("perf choisis ");
+		  for (var i = 0; i < selected.length; i++) {
+			 console.log(selected[i]);
+	       }
+
+	for(var j = 0; j <selected.length ; j++)
+		{
+     	   for(var k = 0; k <Metadata.length ; k++)
+		   {
+				  if(Metadata[k]["Nom_Axe"]== selected[j])
+					{
+					 	 l1=Metadata[k]["Liste_Attributes"].split(",");
+					 	 ListAttributes= ListAttributes.concat(l1);
+						 break;
+					}
+	     }
+	   }
+    /*ListTempor=[];
+    for(var k = 0; k <ListAttributes.length ; k++)
+	 {
+		if(ListTempor.includes() == false)
+		 {
+		    ListTempor.push(ListAttributes[k]);
+		 }
+     }*/
+
+   l2=[];
+   for(var i=0;i<ListAttributes.length ;i++)
+   {
+
+      if(l2.includes(ListAttributes[i].trim())==false)
+       {
+           //console.log("false");
+         l2.push(ListAttributes[i].trim());
+       }
+
+   }
+
+   /*for(var j = 0; j <l2.length ; j++)
+		{
+		  console.log(l2[j]);
+		}*/
+
+   for(var i=0;i<l2.length ;i++)
+   {
+
+		var button = document.createElement("BUTTON");
+		button.innerHTML = l2[i];
+		BtnId=l2[i].toString();
+		button.id=BtnId;
+
+		button.className = 'boutonAttr btnAttr2';
+
+		button.style.backgroundColor='white';
+		button.style.color='black';
+		//button.style.gridGap='10px 15px';
+		touc.appendChild(button);
+		document.getElementById(BtnId).onclick = function() {GetContentButton()};
+	}
+
+
+	function GetContentButton()
+	{
+		 IdBtn=event.srcElement.id;
+		 y=document.getElementById(IdBtn).textContent;
+		 //console.log(y);
+          const ecran = document.querySelector('.ecran');
+		  ecran.textContent += y;
+          ecran.textContent += " ";
+	}
+}
+
+ selected=[];
+ Control_Perf =[];
+ Controle_Stakeholders =[];
+
+
+}
+
+
+ const getCookie = (name) => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+    };
+
+  const CSRFTOKEN = getCookie("csrftoken");
+
+
+
+const Expression=""
+//Fct de calcule
+const touches = [...document.querySelectorAll('.boutonAttr')];
+const listeKeycode = touches.map(touche => touche.dataset.key);
+const ecran = document.querySelector('.ecran');
+/*
+document.addEventListener('keydown', (e) => {
+    const valeur = e.keyCode.toString();
+    //calculer(valeur)
+
+})*/
+
+document.addEventListener('click', (e) => {
+    const valeur = e.target.dataset.key;
+
+    calculer(valeur)
+
+})
+
+
+const calculer = (valeur) => {
+
+  if(listeKeycode.includes(valeur)) {
+        switch (valeur) {
+            case '8':
+                ecran.textContent = "";
+                break;
+
+            case '9':
+            console.log(typeof(ecran.textContent));
+            c=ecran.textContent.split(" ") ;
+            console.log("bbbb");
+            console.log(b);
+            c.pop();
+            c.pop();
+            ecran.textContent = "";
+             for(var i=0;i<c.length;i++)
+ 				     {
+ 					  console.log(c[i]);
+
+ 					ecran.textContent +=c[i];
+			  	    ecran.textContent += " ";
+ 					  }
+
+ 				break;
+
+
+
+            default:
+            /*if(valeur == '103') {
+                        c=ecran.textContent.split(" ") ;
+
+				console.log(c);
+                const indexKeycode = listeKeycode.indexOf(valeur);
+
+                const touche = touches[indexKeycode];
+                ecran.textContent += touche.innerHTML;
+                ecran.textContent += " ";
+
+                const ind2= listeKeycode.indexOf('53');
+                touche2 = touches[ind2];
+				ecran.textContent +=touche2.innerHTML;
+				ecran.textContent += " ";
+
+              }
+
+               else if(valeur == '104') {
+
+                const indexKeycode = listeKeycode.indexOf(valeur);
+
+                const touche = touches[indexKeycode];
+                ecran.textContent += touche.innerHTML;
+                ecran.textContent += " ";
+
+                const ind2= listeKeycode.indexOf('53');
+                touche2 = touches[ind2];
+				ecran.textContent +=touche2.innerHTML;
+				ecran.textContent += " ";
+
+              }
+
+
+               else if(valeur == '105') {
+
+                const indexKeycode = listeKeycode.indexOf(valeur);
+
+                const touche = touches[indexKeycode];
+                ecran.textContent += touche.innerHTML;
+                ecran.textContent += " ";
+
+                const ind2= listeKeycode.indexOf('53');
+                touche2 = touches[ind2];
+				ecran.textContent +=touche2.innerHTML;
+				ecran.textContent += " ";
+
+              }
+
+
+              else {*/
+
+                const indexKeycode = listeKeycode.indexOf(valeur);
+                const touche = touches[indexKeycode];
+                ecran.textContent += touche.innerHTML;
+                ecran.textContent += " ";
+
+
+                c=ecran.textContent.split(" ") ;
+                if(c.length-1>=3){
+                for(var i=0;i<c.length;i++)
+ 				     {
+ 					  console.log(c[i]);
+ 					  }
+
+ 					 /* if(c[i-4]=="sum" || c[i-4]=="avg" || c[i-4]=="count")
+ 					  {
+ 					    const ind3= listeKeycode.indexOf('219');
+						touche3 = touches[ind3];
+						ecran.textContent +=touche3.innerHTML;
+						ecran.textContent += " ";
+
+ 					   }*/
+                }
+			 //}
+
+        }
+    }
+}
+/*
+window.addEventListener('error', (e) => {
+    alert('Une erreur est survenue dans votre fonction de calcul : ' + e.message)
+})*/
+
+
+
+
+
+function Voir_Details(){
+window.location="http://127.0.0.1:8000/List_Types_perf.html";
+}
+
+
+function Quitter()
+{
+window.location.reload();
+}
+
+
+/*
+$(document).click((event) => {
+  if (!$(event.target).closest('#addName').length) {
+
+  }
+});
+*/
+
+
+
+
+
+ecran.textContent="";
+
+
+
+
+
+
+
+
+
+
+
+function Add()
+{
+
+    var Name_kpi = document.getElementById("addName").value;
+	console.log(Name_kpi);
+
+	var Descr = document.getElementById("addDescr").value;
+	console.log(Descr);
+
+
+    //Recuperer les perf selectionnées (lors de l'ajout d'un nvx KPI)
+
+    var selected =[];
+	var ChoixCd = document.getElementById("select_Perf");
+	for(i=0;i<ChoixCd.options.length;i++)
+	{
+		if (ChoixCd.options[i].selected)
+		{
+			selected.push(ChoixCd.options[i].value );
+		}
+	}
+
+       /*for (var i = 0; i < selected.length; i++) {
+          console.log(selected[i]);
+       }*/
+
+    const Expression = ecran.textContent;
+    ecran.textContent = Expression;
+    //console.log("Expression");
+    console.log(Expression);
+
+	partie_Pren = document.getElementById("select_pp");
+	partie_prenante= partie_Pren.options[partie_Pren.selectedIndex].value;
+	console.log(partie_prenante);
+
+   //if (Name_kpi==""  || Descr==""  || Expression =="" )
+
+try{
+   if ( Expression =="" )
+    {
+
+         $.notify({
+						icon: 'flaticon-alarm-1',
+						title: '',
+						message: 'Please enter a function  ! ',
+					},{
+						type: 'Warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+
+    }
+
+     else {
+
+
+               console.log(Expression);
+               Exp = Expression.replaceAll(" ", "");
+               expr = Exp.split(/[/+/*///-]+/);
+
+		  	   ListExpression=Exp;
+
+				for (var j = 0; j<expr.length;j++)
+				{
+					element=expr[j].replaceAll(")", "").replaceAll("(", "").replaceAll("sum", "").replaceAll("avg", "").replaceAll("count", "");
+
+					if(l2.includes(element.trim()))
+					{
+					  ListExpression = ListExpression.replaceAll(expr[j], "8");
+
+					}
+				}
+					console.log(ListExpression);
+					val=eval(ListExpression);
+					console.log(val);
+
+
+					let formD2 = new FormData();
+					formD2.append("ExistInMetadata", b ); //voir si le kpi n existe pas dans le metadonnees (dans ce cas on insere cet indicateur dans la BDD de metadonnees et celle du referentiel sinon seulement dans la BDD de ref )
+					formD2.append("Name_kpi", Name_kpi);
+					formD2.append("Descr", Descr);
+					formD2.append("perf", selected);
+					formD2.append("Attributes", l2);
+					formD2.append("partie_prenante", partie_prenante);
+					formD2.append("Expression", Expression);
+
+					fetch("Insert_New_KPI/",{
+					method: "POST",
+					headers: {
+					"X-CSRFToken": CSRFTOKEN
+					},
+					body: formD2
+			  })
+		      $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'validated !!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "center"
+                                        },
+                                        time: 20000,
+                                    });
+				//window.location.reload();
+
+			}
+
+		        }
+				 catch(err){
+
+				          $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'warning',
+						message: 'Invalid function  ',
+					},{
+						type: 'warning',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+				 }
+
+ }
+
+
+
+
+  var table = document.getElementById("TableReferentiel"),rIndex,cIndex;
+  table.rows[table.rows.length-1].deleteCell(-1);
+
+  let TablPerf = {{ TablPerf | safe }};
+
+
+
+
+
+
+
+            // table rows
+            for(var i = 1; i < table.rows.length-1; i++)
+            {
+                // row cells
+                for(var j = 5; j <= 6; j++) //table.rows[i].cells.length
+                {
+                    table.rows[i].cells[j].onclick = function()
+                    {
+
+								rIndex = this.parentElement.rowIndex;
+								cIndex = this.cellIndex;
+								rIndex=rIndex-1;
+								console.log("Row : "+rIndex+" , Cell : "+cIndex);
+
+
+								// Supprimer kpi
+								 if(cIndex==6)
+										{
+
+										  var result = confirm("Want to delete?");
+											if (result) {
+
+											org_nameKpi=table.rows[rIndex+1].cells[1].innerHTML;
+											console.log(org_nameKpi);
+
+											org_perf=table.rows[rIndex+1].cells[0].innerHTML;
+											console.log(org_perf);
+
+											let form2 = new FormData();
+
+											form2.append("org_nameKpi", org_nameKpi);
+											form2.append("org_perf", org_perf);
+											console.log("removed");
+
+											fetch("Delete_KPI/",
+											{
+												method: "POST",
+												headers: {
+													"X-CSRFToken": CSRFTOKEN
+												},
+												body: form2
+											})
+
+
+								     $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'added!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "center"
+                                        },
+                                        time: 20000,
+                                    });
+
+											}
+											window.location.reload();
+										 }
+
+    				if(cIndex==5){  //Update
+
+						   org_nameIndic=table.rows[rIndex+1].cells[1].innerHTML;
+						   console.log(org_nameIndic);
+						   document.getElementById('NameIndicator').value = org_nameIndic;
+
+	        	           org_descr=table.rows[rIndex+1].cells[2].innerHTML;
+	        	           console.log(org_descr);
+	        	           document.getElementById('NameDescr').value = org_descr;
+
+	        	           /*org_fct=table.rows[rIndex+1].cells[3].innerHTML;
+	        	           document.getElementById('expr').value = org_fct.trim();
+	        	           console.log(org_fct);*/
+
+
+
+                          /*  if(org_pprenante.trim()=="Employees") {
+                            $(document).ready(()=>{
+								$("#stackholders option[value='Employees']").attr('selected', 'selected');
+							});
+                           }
+                           if(org_pprenante.trim()=="subscribers") {
+                            $(document).ready(()=>{
+								$("#stackholders option[value='subscribers']").attr('selected', 'selected');
+							});
+                           }
+                            if(org_pprenante.trim()=="Others") {
+                            $(document).ready(()=>{
+								$("#stackholders option[value='Others']").attr('selected', 'selected');
+							});
+                           }*/
+
+
+						   //verifier avec split
+					   	   org_perf=table.rows[rIndex+1].cells[0].innerHTML;
+					   	  // console.log(org_perf);
+
+
+  //recuperer les perf ou il existe *org_nameIndic
+
+//TablPerf.append({'NomPerf':t[i]['NomPerf'], 'ListeKPI'
+
+ ListIndicateurs=[];
+ ListAxes=[];
+
+ p=0;
+
+
+ 		for(var k = 0; k <TablPerf.length ; k++)
+		  {
+			p=TablPerf[k]["NomPerf"];
+			ListIndicateurs=[];
+			for(var m = 0; m <TablPerf[k]["ListeKPI"].length ; m++)
+		     {
+				ListIndicateurs.push(TablPerf[k]["ListeKPI"][m]["Nom_KPI"].toLowerCase().trim());
+		     }
+		   // console.log(org_nameIndic.toLowerCase().trim());
+			if(ListIndicateurs.includes(org_nameIndic.toLowerCase().trim()))
+		    {
+					ListAxes.push(p.toLowerCase().trim());
+		    }
+
+		  }
+
+			/*for(var m = 0; m <ListAxes.length ; m++)
+		     {
+		     console.log(ListAxes);
+		     }*/
+
+
+
+
+	perf=org_perf;
+    var selected =ListAxes;
+
+   /* if(selected.length>=1){
+       selected.shift();
+     }
+	else {
+	  selected.push(perf);
+      }
+   */
+
+	/*for ( i = 0; i < values.length; i++ )
+	{
+		if(selected[0].trim()==values[i].trim())
+			{
+					 //console.log(selected[0]);
+					 //console.log(values[i]);
+			   for ( j = 0, cr = values[i]; j < options.length; j++ )
+			   {
+				 options[j].selected = options[j].selected || cr === options[j].text;
+				 console.log(options[j].selected);
+				 }
+			}
+	}*/
+
+
+
+			   //var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+			   options = document.getElementById("namePerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+
+			 console.log(i);
+                    for (var  k = 0; k < ListAxes.length; k++ )
+                    {
+						if(ListAxes[k].trim()==values[i].trim())
+						 {
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 //console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+ 					 }
+
+				         else {
+
+							input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value; }
+
+							input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+
+				  };
+                }
+            }}
+
+
+
+
+
+function UpdateIndicator(){
+
+
+						console.log("update");
+						console.log("perf");
+						console.log(perf);
+						console.log("org_nameIndic");
+						console.log(org_nameIndic);
+
+
+					    var Name_kpi = document.getElementById("NameIndicator").value;
+
+						console.log(Name_kpi.toLowerCase().trim());
+
+						var Descr = document.getElementById("NameDescr").value;
+						console.log(Descr);
+
+
+
+                                console.log("ListAxes");
+                                console.log(ListAxes);
+                                console.log("selected");
+                                console.log(selected);
+
+                            	let formData = new FormData();
+
+                                //old values
+								formData.append("org_perf", perf);
+								formData.append("ListAxes", ListAxes);
+								formData.append("org_nameIndic", org_nameIndic);
+								//formData.append("org_fct", org_fct);
+
+
+								//new values
+								formData.append("selected", selected);
+								formData.append("Name_kpi", Name_kpi);
+								formData.append("Descr", Descr);
+
+	//verif coherence
+
+	var selected =[];
+	 var ChoixCd = document.getElementById("namePerf");
+	 for(i=0;i<ChoixCd.options.length;i++)
+	 {
+	   if (ChoixCd.options[i].selected)
+		 {
+			 selected.push(ChoixCd.options[i].value );
+		 }
+	}
+
+				for(var k = 0; k <selected.length ; k++)
+				{
+				  console.log(selected[k]);
+				 }
+
+
+			var Control_Perf =[];
+				for(var k = 0; k <Metadata.length ; k++)
+				{
+				 // console.log(Metadata[k]["Liste_KPI"])
+
+				 if(Metadata[k]["Liste_KPI"].includes(Name_kpi.toLowerCase().trim())|| Metadata[k]["Liste_KPI"].includes(Name_kpi.toLowerCase().trim().replaceAll(" ","_")) ) // tester si le nom de kpi saisi existe dans le metadonnees
+					{
+						console.log(Metadata[k]["Nom_Axe"])
+						Control_Perf.push(Metadata[k]["Nom_Axe"]);
+						b=1;
+					}
+	          	}
+
+
+		if(b==1 && Name_kpi.trim()!="" &&  Descr!="" && selected.length!=0)   // si le nom de kpi saisi existe  dans le metadonnées
+       {
+
+		 	   if(selected.length>Control_Perf.length)
+              {
+					$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+		       }
+
+             var a=0;
+		   if(selected.length<=Control_Perf.length)
+		   {
+				 for(i=0;i<selected.length;i++)
+				 {
+				   if(Control_Perf.includes(selected[i]))
+					 {
+					   a=1;
+					 }
+					 else
+					  {
+					   a=0;
+					   break;
+					  }
+				 }
+            }
+
+            if(a==0)
+            {
+            	$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'The selected performance type is inconsistent ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+            }
+            else //(a==1)
+            {
+
+            					fetch("Update_KPI/", {
+								method: "POST",
+								headers: {
+								"X-CSRFToken": CSRFTOKEN
+								},
+								body: formData
+									})
+
+								    $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'Updated!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "center"
+                                        },
+                                        time: 30000,
+                                    });
+								window.location.reload();
+            }
+
+		}
+
+
+
+		else if (b==0 && Name_kpi.trim()!="" &&  Descr!="" && selected.length!=0)
+			{ //si le nom de kpi n existe pas dans le metadata
+
+				fetch("Update_KPI/", {
+								method: "POST",
+								headers: {
+								"X-CSRFToken": CSRFTOKEN
+								},
+								body: formData
+									})
+
+								    $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'Updated!!!',
+                                    },{
+                                        type: 'warning',
+                                        placement: {
+                                            from: "top",
+                                            align: "center"
+                                        },
+                                        time: 30000,
+                                    });
+								window.location.reload();
+
+		}
+
+		else {
+
+		      	$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Make sure you fill in all the fields ! ',
+					},{
+						type: 'danger',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+		}
+
+				/* }
+				 catch(err){
+				    alert("Invalid function ! Erreur: " + err.message  );
+
+				 }*/
+			//}
+	}
+
+
+
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#TableReferentiel').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 5,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+
+		});
+	</script>
+
+{% endblock javascripts %}

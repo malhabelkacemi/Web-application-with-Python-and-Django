@@ -1,0 +1,6111 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Evaluation _Performance {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+
+
+
+	<div  >
+		<!--<div class="page-inner" style="background-color:#FFFFFF">
+			<div class="page-header" style="color:black; ">
+				<h4 class="page-title" style="color:black; ">____</h4>
+
+			</div>
+        </div>-->
+
+
+
+       				<div class="col-md-5 stakeholders "  id="pp">
+						<div class="card-body stakeholders12" >
+							<!-- Modal -->
+							<div class="modal fade" id="partiPren" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content" style="margin-top: 35%;margin-left:23%;">
+										<div class="modal-header no-bd" style="background-color:#D3D3D3"  >
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1 text-dark">
+												Stakeholders </span>
+
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "  style="background-color:#011F2C">
+
+			 	<div class=" container-fluid px-1  mx-auto">
+
+                 <form class="form-card ">
+			        <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-5 flex-column d-flex col-md-8 mx-auto">
+                        <!--<div class="form-group col-sm-6 flex-column d-flex"> -->
+						<label class="form-control-label px-1 "> <span class="text-light">The stakeholders concerned by this axe : </span></label>
+							  	<select multiple = "multiple"  name="selected[]"  id="select_pp" >
+											<option value="subscribers">subscribers</option>
+											<option value="employees">Employees</option>
+											<option value="others">Others</option>
+								</select>
+						</div>
+					</div>
+				<div class="col-md-4 mx-auto" style="padding-bottom:3%;">
+					 <button type="button" data-toggle="tooltip"  id="btnSave"  class="btn btn-primary"  onclick = "Save()" >Save changes</button>
+				</div>
+				 </form>
+
+				</div></div></div></div></div></div></div>
+
+
+
+
+
+
+
+			<div class="row">
+				<div class="col-md-12"  >
+					<div class="card" style="background: radial-gradient(circle, rgba(228,174,192,1) 0%, rgba(148,187,233,1) 100%);">
+
+
+						<div class="card-header" >
+							<h4 class="card-title mb-4"></h4>
+								<div class="d-flex align-items-center" >
+								<h4 class="card-title">  </h4>
+
+
+
+                              <div class="row btnadd ">
+  								<button class="btn btn-warning btn-round  mr-2 "    data-toggle="modal" data-target="#Add_keywordKpi">
+									<i class="fa fa-plus"></i>
+									Keyword indicator
+								</button>
+
+
+								<button class="btn btn-secondary btn-round  mr-2"  data-toggle="modal" data-target="#addAxe">
+									<i class="fa fa-plus"></i>
+									Add Axis
+								</button>
+                                     <form action="{% url 'addaxefromfile' %}">
+                                  {% csrf_token %}
+                                  <button class="btn btn-info btn-round  mr-2 "  data-toggle="modal" data-target="#addRowModal">
+                                    <i class="fa fa-plus"></i>
+                                    Add axis from file
+                                  </button>
+                                </form>
+
+
+  						    </div>
+
+  						    </div>
+
+
+
+                                <div class="row mt-5" >
+                                  <input  class="ml-4 w-25 "  type="text" id="Rech"  name="addName"placeholder="Enter an indicator name..." >
+                                    <button class="btn btn-secondary ml-1" onclick = "Rechercher()">
+                                      Search indicator
+                                    </button>
+                                </div>
+
+
+
+
+<h4 class="card-title ml-4" style=" margin-bottom:1%;margin-top:2%;color:black">The existing performance axes in the metada :</h4>
+
+
+<div class="list-group ml-4 mt-2 " id="metadata_Perf" >
+
+ <div>
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C"  id = "commercial" class="comm mt-2  w-25  mb-1 list-group-item list-group-item-action  list-group-item-warning" data-target="#collapseCommercial" href="#collapseCommercial" aria-expanded="false">
+ commercial  <div class=" perff fa flaticon-interface " style="margin-left:60%; margin-top:4%;"></div>
+</div>
+
+
+<div class="collapse "   id="collapseCommercial"  aria-controls="collapseCommercial">
+<p>
+
+	<button class="btn btn-warning ml-8" onclick = "Afficher_PartiesPren('commercial')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+
+  <a class="btn btn-success" data-toggle="collapse"  href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+      Indicators keywords </a>
+  <button class="btn btn-info " type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse  multi-collapse mt-3" id="multiCollapseExample1">
+      <div class="card scroll card-body"  id="KpiCom">
+		  <u>
+			  Indicators (keywords)
+                <!--<button id="BtnRefresh" class="btn  btn-info  "style="margin-left:10%; width:30%;" onclick = "Refresh()" >
+	            Refresh
+	           </button>-->
+
+		  </u>
+
+
+
+       </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiCollapseExample2">
+      <div class="card scroll card-body" id="Attr_Com">
+          <u>
+			  Attributes
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "social" class="class_social mt-2 w-25  mb-1 list-group-item list-group-item-action list-group-item-secondary" data-target="#collapsesocial" href="#collapsesocial" aria-expanded="false">
+ social  <div class="fa flaticon-interface" style="margin-left:78%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapsesocial"  aria-controls="collapsesocial">
+<p>
+
+
+	<button class="btn btn-warning " onclick = "Afficher_PartiesPren('social')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+
+  <a class="btn btn-success" data-toggle="collapse" href="#multiCollapse_social1" role="button" aria-expanded="false" aria-controls="multiCollapse_social1">
+      Indicators  keywords</a>
+  <button class="btn   btn-info " type="button" data-toggle="collapse" data-target="#multiCollapse_social2" aria-expanded="false" aria-controls="multiCollapse_social2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiCollapse_social1">
+      <div class="card scroll card-body" id="Kpisoc">
+		  <u>
+			  Indicators (keywords) </u>
+
+
+       </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiCollapse_social2">
+      <div class="card scroll card-body" id="Attr_soc">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div data-toggle="collapse"  style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "competitive"  class="class_comp mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-warning" data-target="#collapsecompetitive" href="#collapsecompetitive" aria-expanded="false">
+ competitive  <div class="fa flaticon-interface" style="margin-left:61%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapsecompetitive"  aria-controls="collapsecompetitive">
+<p>
+
+
+	<button class="btn btn-warning " onclick = "Afficher_PartiesPren('competitive')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success " data-toggle="collapse" href="#multiCollapsecompetitive1" role="button" aria-expanded="false" aria-controls="multiCollapsecompetitive1">
+      Indicators keywords </a>
+  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#multiCollapsecompetitive2" aria-expanded="false" aria-controls="multiCollapsecompetitive2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiCollapsecompetitive1">
+      <div class="card scroll card-body" id="KpiConc">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiCollapsecompetitive2">
+      <div class="card scroll card-body" id="Attr_Conc">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "environnemental"  class="class_envr mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-info" data-target="#collapseenvironnemental" href="#collapseenvironnemental" aria-expanded="false">
+ environnemental  <div class="fa flaticon-interface" style="margin-left:45%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapseenvironnemental"  aria-controls="collapseenvironnemental">
+<p>
+  	<button class="btn btn-warning " onclick = "Afficher_PartiesPren('environnemental')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+
+  <a class="btn btn-success" data-toggle="collapse" href="#multienvironnemental1" role="button" aria-expanded="false" aria-controls="multienvironnemental1">
+      Indicators keywords</a>
+  <button class="btn btn-info " type="button" data-toggle="collapse" data-target="#multienvironnemental2" aria-expanded="false" aria-controls="multienvironnemental2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multienvironnemental1">
+      <div class="card scroll card-body" id="Kpienv">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multienvironnemental2">
+      <div class="card scroll card-body" id="Attr_env">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "organizational" class="class_org mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-light" data-target="#collapseorganizational" href="#collapseorganizational" aria-expanded="false">
+ organizational  <div class="fa flaticon-interface" style="margin-left:52%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapseorganizational"  aria-controls="collapseorganizational">
+<p>
+    	<button class="btn btn-warning " onclick = "Afficher_PartiesPren('organizational')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success " data-toggle="collapse" href="#multiorganizational1" role="button" aria-expanded="false" aria-controls="multiorganizational1">
+      Indicators keywords </a>
+  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#multiorganizational2" aria-expanded="false" aria-controls="multiorganizational2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiorganizational1">
+      <div class="card scroll card-body" id="KpiOrg">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiorganizational2">
+      <div class="card scroll card-body" id="Attr_Org">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "production"  class="class_prod mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-success" data-target="#collapseproduction" href="#collapseproduction" aria-expanded="false">
+ production  <div class="fa flaticon-interface" style="margin-left:64%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapseproduction"  aria-controls="collapseproduction">
+<p>
+	<button class="btn btn-warning " onclick = "Afficher_PartiesPren('production')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success" data-toggle="collapse" href="#multiproduction1" role="button" aria-expanded="false" aria-controls="multiproduction1">
+      Indicators keywords </a>
+  <button class="btn btn-info  " type="button" data-toggle="collapse" data-target="#multiproduction2" aria-expanded="false" aria-controls="multiproduction2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiproduction1">
+      <div class="card scroll card-body" id="Kpiprod">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiproduction2">
+      <div class="card scroll card-body" id="Attr_prod">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "financial"  class="class_finan mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-warning" data-target="#collapsefinancial" href="#collapsefinancial" aria-expanded="false">
+ financial  <div class="fa flaticon-interface" style="margin-left:71%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapsefinancial"  aria-controls="collapsefinancial">
+<p>
+  	<button class="btn btn-warning " onclick = "Afficher_PartiesPren('financial')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success" data-toggle="collapse" href="#multifinancial1" role="button" aria-expanded="false" aria-controls="multifinancial1">
+      Indicators keywords</a>
+  <button class="btn btn-info " type="button" data-toggle="collapse" data-target="#multifinancial2" aria-expanded="false" aria-controls="multifinancial2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multifinancial1">
+      <div class="card scroll card-body" id="Kpifinan">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multifinancial2">
+      <div class="card scroll card-body" id="Attr_finan">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div data-toggle="collapse"  style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "societal" class="class_societal mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-primary" data-target="#collapsesocietal" href="#collapsesocietal" aria-expanded="false">
+ societal  <div class="fa flaticon-interface" style="margin-left:75%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapsesocietal"  aria-controls="collapsesocietal">
+<p>
+    <button class="btn btn-warning " onclick = "Afficher_PartiesPren('societal')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success" data-toggle="collapse" href="#multisocietal1" role="button" aria-expanded="false" aria-controls="multisocietal1">
+      Indicators keywords</a>
+  <button class="btn btn-info " type="button" data-toggle="collapse" data-target="#multisocieta2" aria-expanded="false" aria-controls="multisocieta2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multisocietal1">
+      <div class="card scroll card-body" id="Kpisocietal">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multisocieta2">
+      <div class="card scroll card-body" id="Attr_societal">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" id = "strategic" class="class_strat mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-warning" data-target="#collapsestrategic" href="#collapsestrategic" aria-expanded="false">
+ strategic  <div class="fa flaticon-interface" style="margin-left:72%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapsestrategic"  aria-controls="collapsestrategic">
+<p>
+     <button class="btn btn-warning " onclick = "Afficher_PartiesPren('strategic')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success " data-toggle="collapse" href="#multistrategic1" role="button" aria-expanded="false" aria-controls="multistrategic1">
+      Indicators keywords </a>
+  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#multistrategic2" aria-expanded="false" aria-controls="multistrategic2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multistrategic1">
+      <div class="card scroll card-body" id="Kpistrat">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multistrategic2">
+      <div class="card scroll card-body" id="Attr_strat">
+          <u>
+			  Attributes (keywords)
+		  </u>
+     </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<div data-toggle="collapse" id = "economic" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" class="class_econ mt-2  w-25  mb-1 list-group-item list-group-item-action list-group-item-primary" data-target="#collapseconomic" href="#collapseconomic" aria-expanded="false">
+ economic  <div class="fa flaticon-interface" style="margin-left:69%; margin-top:4%;"></div>
+</div>
+
+<div class="collapse"   id="collapseconomic"  aria-controls="collapseconomic">
+<p>
+    <button class="btn btn-warning " onclick = "Afficher_PartiesPren('economic')" data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+  <a class="btn btn-success" data-toggle="collapse" href="#multieconomic1" role="button" aria-expanded="false" aria-controls="multieconomic1">
+      Indicators keywords </a>
+  <button class="btn btn-info " type="button" data-toggle="collapse" data-target="#multieconomic2" aria-expanded="false" aria-controls="multieconomic2">
+	  Attributes keywords
+  </button>
+
+</p>
+<div class="row " >
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multieconomic1">
+      <div class="card scroll card-body" id="KpiEcon">
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multieconomic2">
+      <div class="card scroll card-body" id="Attr_Econ">
+          <u>
+			  Attributes (keywords)
+		  </u>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="nouveauAxe1">
+<div data-toggle="collapse"  style="font-size: 15px ; font-weight: bolder;background-color:#03224C" class="comm mt-2  w-25  mb-1 list-group-item list-group-item-action  list-group-item-success" data-target="#collapseNew1" href="#collapseNew1" aria-expanded="false">
+ <span id="new1"> </span>  <div class=" perff fa flaticon-interface" style="margin-left:69%; margin-top:4%;"></div>
+</div>
+<div class="collapse "   id="collapseNew1"  aria-controls="collapseNew1">
+<p>
+	<button class="btn btn-warning ml-8"  data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+
+  <a class="btn btn-success " data-toggle="collapse"  href="#multiCollapseExamplenew1" role="button" aria-expanded="false" aria-controls="multiCollapseExamplenew1">
+      Indicators keywords </a>
+  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#multiCollapseExamplenew2" aria-expanded="false" aria-controls="multiCollapseExamplenew2">
+	  Attributes keywords
+  </button>
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse  multi-collapse mt-3" id="multiCollapseExamplenew1">
+      <div class="card scroll card-body" id="Kpi0" >
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+       </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multiCollapseExamplenew2">
+      <div class="card scroll card-body" id="Attr0">
+          <u>
+			  Attributes (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+<div id="nouveauAxe2">
+<div data-toggle="collapse" style="font-size: 15px ; font-weight: bolder;background-color:#03224C" class="comm mt-2  w-25  mb-1 list-group-item list-group-item-action  list-group-item-success" data-target="#collapseNewsecond" href="#collapseNewsecond" aria-expanded="false">
+ <span id="new2"> </span> <div class=" perff fa flaticon-interface" style="margin-left:60%; margin-top:4%;"></div>
+</div>
+<div class="collapse "   id="collapseNewsecond"  aria-controls="collapseNewsecond">
+<p>
+	<button class="btn btn-warning ml-8"  data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+
+  <a class="btn btn-success" data-toggle="collapse"  href="#multi11" role="button" aria-expanded="false" aria-controls="multi11">
+      Indicators keywords </a>
+  <button class="btn btn-info " type="button" data-toggle="collapse" data-target="#multi22" aria-expanded="false" aria-controls="multi22">
+	  Attributes keywords
+  </button>
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse  multi-collapse mt-3" id="multi11">
+      <div class="card scroll card-body" id="Kpi1" >
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+       </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multi22">
+      <div class="card scroll card-body" id="Attr1">
+          <u>
+			  Attributes (keywords)
+		  </u>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+
+ <div id="nouveauAxe3">
+<div data-toggle="collapse" style="background-color:#03224C" class="comm mt-2  w-25  mb-1 list-group-item list-group-item-action  list-group-item-success" data-target="#collapseNewthird" href="#collapseNewthird" aria-expanded="false">
+ <span id="new3"> </span> <div class=" perff fa flaticon-interface" style="margin-right:65%; margin-top:4%;"></div>
+</div>
+<div class="collapse "   id="collapseNewthird"  aria-controls="collapseNewthird">
+<p>
+	<button class="btn btn-warning ml-8"  data-toggle="modal" data-target="#partiPren">
+	  Stakeholders
+	</button>
+
+  <a class="btn btn-success " data-toggle="collapse"    href="#multi31" role="button" aria-expanded="false" aria-controls="multi31">
+      Indicators keywords </a>
+  <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#multi32" aria-expanded="false" aria-controls="multi32">
+	  Attributes keywords
+  </button>
+</p>
+<div class="row ">
+  <div class="col">
+    <div class="collapse  multi-collapse mt-3" id="multi31">
+      <div class="card scroll card-body" id="Kpi2" >
+		  <u>
+			  Indicators (keywords)
+		  </u>
+
+
+
+       </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="collapse multi-collapse mt-3" id="multi32">
+      <div class="card scroll card-body" id="Attr2">
+          <u>
+			  Attributes (keywords)
+		  </u>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+</div></div>
+
+
+
+                     </div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div class="col-md-5 "  >
+						<div class="card-body" >
+							<!-- Modal -->
+							<div class="modal fade" id="Add_keywordKpi" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content" style="margin-top: 32%;margin-left:20%;">
+										<div class="modal-header no-bd"   style="background-color:#D3D3D3">
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1 text-dark">
+												New</span>
+												<span class="fw-light p1 text-dark">
+													  Keyword indicator
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "   style="background-color:#011F2C">
+
+			 	<div class=" container-fluid px-1  mx-auto">
+
+                 <form class="form-card ">
+                     <div class="form-group col-sm-7 flex-column d-flex col-md-8 mx-auto">
+							<label class="form-control-label ">Keyword indicator name<span class="text-danger">*</span></label>
+							<input type="text" id="KeywordNomKPI" name="NomKPI_Motcle" placeholder="Keyword" >
+                            <label class="form-control-label mt-3 mb-2">Performance(Axis)<span class="text-danger">*</span></label>
+
+								<select multiple = "multiple"  id="selected_Perfs" >
+										{% for x in Metadata %}
+											 <td class="tdd" >{{x.Nom_Axe }}</td>
+									         <option value={{x.Nom_Axe}}>{{x.Nom_Axe }}</option>
+									    {% endfor %}
+								</select>
+
+						</div>
+					<div class="col-md-3 mx-auto" style="padding-bottom:3%;">
+					 <button type="button" data-toggle="tooltip"  id="btnConfirm2"  class="btn btn-outline-info"  onclick = "Add_MotcleKpi()" >Add</button>
+				</div>
+				 </form>
+
+				</div></div></div></div></div></div>
+                </div>
+
+
+
+
+
+				<div class="col-md-5 formAxe"  id="formAxe">
+						<div class="card-body" >
+							<!-- Modal -->
+							<div class="modal fade" id="addAxe" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content" style="margin-top: 32%;margin-left:18%;">
+										<div class="modal-header no-bd"  style="background-color:#011F2C">
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1 text-light">
+												New</span>
+												<span class="fw-light p1 text-light">
+													  axis
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "    style="background-color:#D3D3D8;">
+
+			 	<div class=" container-fluid px-1  mx-auto">
+
+                 <form class="form-card ">
+			        <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-7 flex-column d-flex col-md-8 mx-auto">
+							<label class="form-control-label "> <span class="text-dark">Name axis </span> <span class="text-danger"> *</span></label>
+							<input type="text" id="nameAxis" name="nameAxis" placeholder="fill name">
+
+						</div>
+					</div>
+				<div class="col-md-3 mx-auto" style="padding-bottom:3%;">
+					 <button type="button" data-toggle="tooltip"  id="btnaxe"  class="btn btn-success"  onclick = "NewAxe()" >Add </button>
+				</div>
+				 </form>
+
+				</div></div></div></div></div></div></div>
+
+
+				<div class="modal fade" id="Edit_NomKpi" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header no-bd"  style="background-color:#D3D3D3">
+											<h5 class="modal-title ">
+												<span class="fw-mediumbold p1 text-dark">
+												Edit</span>
+												<span class="fw-light p1 text-dark">
+													  Indicator
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "  style="background-color:#011F2C;">
+
+			 	<div class=" container-fluid px-1  mx-auto">
+
+                 <form class="form-card ">
+			        <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-7 flex-column d-flex col-md-8 mx-auto">
+
+
+							<label class="form-control-label ">Keyword indicator name<span class="text-danger"> </span></label>
+							<input type="text" id="Keyword_NomKPI" name="NomKPI_Motcle" >
+                            <label class="form-control-label mt-3 mb-2">Performance(Axis)</label>
+
+								<select multiple = "multiple"  id="nomPerf" >
+										{% for x in Metadata %}
+											 <td class="tdd" >{{x.Nom_Axe }}</td>
+									         <option value={{x.Nom_Axe}}>{{x.Nom_Axe }}</option>
+									    {% endfor %}
+								</select>
+
+						</div>
+					</div>
+				<div class="col-md-3 mx-auto" style="padding-bottom:3%;">
+					 <button type="button" data-toggle="tooltip"  id="btnConfirm"  class="btn btn-outline-info"  onclick = "UpdateMotCleKpi()" >Update</button>
+				</div>
+				 </form>
+
+				</div></div></div></div></div>
+
+
+		</div>
+		</div>
+		</div>
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<style>
+
+
+#nouveauAxe1
+{
+visibility:hidden;
+}
+
+#nouveauAxe2 {
+visibility:hidden;
+}
+
+#nouveauAxe3 {
+visibility:hidden;
+}
+
+
+
+
+
+
+div.divKpi0:hover,div.divKpi:hover , div.divKpi3:hover ,div.divKpi4:hover,div.divKpi5:hover,div.divKpi6:hover,div.divKpi7:hover, div.divKpi8:hover  , div.divKpi9:hover, div.divKpi10:hover  {
+ background-color:#49A7B6;
+ font-size: 15px;
+ width:45%;
+
+
+}
+
+div.divAttr:hover , div.divAttr1:hover  , div.divAttr2:hover , div.divAttr3:hover  , div.divAttr4:hover, div.divAttr5:hover    , div.divAttr6:hover ,div.divAttr7:hover,  div.divAttr7:hover,  div.divAttr8:hover,   div.divAttr9:hover
+{
+ background-color:#49A7B6;
+ font-size: 14px;
+ width:44%;
+
+}
+
+
+.scroll{
+max-height:260px;
+overflow-y:auto;
+}
+
+
+u{
+margin-left:30%;
+color:yellow;
+font-weight:bolder;
+font-size: 16px;
+margin-bottom:1%;
+
+
+}
+
+
+
+
+div.perf{
+color:black;
+}
+
+div.list-group-item
+{
+background-color:black;
+color:white;
+}
+
+
+div.list-group-item-action
+ {
+background-color:black;
+color:white;
+}
+
+div.list-group-item-light
+ {
+background-color:black;color:white;
+}
+
+/*
+
+div.list-group-item :hover
+{
+background-color:yellow;
+}
+
+
+div.list-group-item-action:hover
+ {
+background-color:yellow;
+}
+
+div.list-group-item-light:hover
+ {
+background-color:yellow;
+}
+
+
+
+div.perff:hover {
+    background-color:red;
+}
+*/
+
+
+
+
+.p1 {
+	 font-size: 18px !important;
+	 font-weight: 100;
+}
+
+
+.btns {
+margin-right:30%;
+}
+.btnadd {
+margin-left:45%;
+
+}
+.addkpiButton{
+color:black;
+font-size: 14px;
+font-weight: bold;
+}
+#cardd{
+width:80%;
+
+}
+.modal-body{
+padding:4%;
+padding-top:0%;
+padding-bottom:0%;
+}
+
+
+
+
+.fct {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  padding-bottom:4px;
+  border-radius: 5px;
+  box-shadow: 0 5px black;
+}
+
+
+</style>
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+
+	<script>
+
+$(document).ready(function () {
+  var navListItems = $('div.setup-panel div a'),
+          allWells = $('.setup-content'),
+          allNextBtn = $('.nextBtn'),
+  		  allPrevBtn = $('.prevBtn');
+
+  allWells.hide();
+
+  navListItems.click(function (e) {
+      e.preventDefault();
+      var $target = $($(this).attr('href')),
+              $item = $(this);
+
+      if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-primary').addClass('btn-default');
+          $item.addClass('btn-primary');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+      }
+  });
+
+  allPrevBtn.click(function(){
+      var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
+
+          prevStepWizard.removeAttr('disabled').trigger('click');
+  });
+
+  allNextBtn.click(function(){
+      var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          isValid = true;
+
+      $(".form-group").removeClass("has-error");
+      for(var i=0; i<curInputs.length; i++){
+          if (!curInputs[i].validity.valid){
+              isValid = false;
+              $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+      }
+
+      if (isValid)
+          nextStepWizard.removeAttr('disabled').trigger('click');
+  });
+
+  $('div.setup-panel div a.btn-primary').trigger('click');
+});
+
+
+function Rechercher()
+{
+try {
+
+    let Metadata = {{ Metadata | safe }};
+	var Name_kpi = document.getElementById("Rech").value;
+	Name_kpi = Name_kpi.toLowerCase();
+
+    str=" This indicator keyword is in : " ;
+
+   if(Name_kpi == "" )
+   {
+
+            $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'warning',
+						message: 'Enter something  to search !!!',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+
+   }
+
+  else
+    {     list=[];
+          for(k=0;k<Metadata.length;k++)
+           {
+                   console.log("kkk");
+                   console.log(Metadata[k]);
+                   if(Metadata[k]["Liste_KPI"].length>=1)
+                   {
+                       array1=Metadata[k]["Liste_KPI"].split(',');
+                       var l2=[];
+                       for(var i=0;i<array1.length ;i++)
+                       {
+                          if(l2.includes(array1[i].toLowerCase())==false)
+                           {
+                             l2.push(array1[i].toLowerCase());
+                           }
+                       }
+
+                        if(l2.includes(Name_kpi.toLowerCase()))
+                        {
+                              list.push(Metadata[k]["Nom_Axe"]);
+                              str=str+Metadata[k]["Nom_Axe"] + " - ";
+                              document.getElementById(Metadata[k]["Nom_Axe"].trim()).style.backgroundColor='green';
+                         }
+                        else
+                        {
+                              document.getElementById(Metadata[k]["Nom_Axe"].trim()).style.backgroundColor='#03224C';
+                        }
+                   }
+
+           }
+
+            if(list.length==0)
+                {
+
+                        $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'No matching indicator keyword found!! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+
+
+                }
+     }
+}catch(error)
+{
+   console.error(error);
+}
+}
+
+
+
+
+
+ const getCookie = (name) => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+    };
+
+  const CSRFTOKEN = getCookie("csrftoken");
+
+
+function Quitter()
+{
+   window.location.reload();
+}
+
+function NewAxe()
+{
+    let TablPerf = {{ TablPerf | safe }};
+    listAXESexistants=[];
+ 	for(var k = 0; k <TablPerf.length ; k++)
+	   {
+			listAXESexistants.push(TablPerf[k]["NomPerf"].toLowerCase().trim());
+
+	   }
+ console.log("listAXESexistants");
+ console.log(listAXESexistants);
+
+
+
+    NameAxis= document.getElementById("nameAxis").value;
+    NameAxis= NameAxis.toLowerCase().trim();
+    if(NameAxis==""){
+
+       $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Fill in the field Name !! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+
+    else {
+
+    //verifer son existance
+
+    if(listAXESexistants.includes(NameAxis))
+    {
+
+
+       $.notify({
+                                            icon: 'flaticon-alarm-1',
+                                            title: 'warning',
+                                            message: 'This axis already exists!!',
+                                        },{
+                                            type: 'warning',
+                                            placement: {
+                                                from: "top",
+                                                align: "right"
+                                            },
+                                            time: 20000,
+                                        });
+    }
+
+    else {
+
+		let formD1 = new FormData();
+
+		formD1.append("NameAxis", NameAxis);
+
+		fetch("_AjoutAxe/",{
+		method: "POST",
+		headers: {
+		"X-CSRFToken": CSRFTOKEN
+		},
+		body: formD1
+		})
+               $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'Axis added successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+		document.getElementById("nameAxis").value="";
+		//window.location.reload();
+		 }
+    }
+}
+
+function Afficher_PartiesPren(NomPerf)
+{
+     document.getElementById('select_pp').selectedIndex=-1;
+     $('#partiPren').modal('show');//afficher le formulaire de modif
+     var array1=[];
+     var arr=[];
+     console.log(arr.length);
+
+       $('option:selected').removeAttr('selected');
+				for(var k = 0; k <Metadata.length ; k++)
+				{
+				  if(Metadata[k]["Nom_Axe"].trim() == NomPerf)
+				  {
+			          array1=Metadata[k]["Stakeholders"].split(',');
+					  console.log("array1");
+					  console.log(array1);
+                      break;
+	          	    }
+			    }
+
+
+
+               var cr, i, j,
+			   values = ["subscribers", "employees", "others" ],
+
+			   options = document.getElementById("select_pp").options;
+
+			  //pour les performances
+			 for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < array1.length; k++ )
+                    {
+						if(array1[k].trim()==values[i].trim())
+						 {
+							   console.log("yees");
+							   console.log(array1[k]);
+                         /*for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 //console.log(options[j].selected);
+							   }*/
+						 }
+                    }
+			  }
+
+		  for ( i = 0; i < array1.length; i++ )
+			  {
+			     arr[i]=array1[i].trim();
+			  }
+
+			 var a="employees";
+			 if(arr.includes("employees"))
+            {
+
+               $(document).ready(()=>{
+								$("#select_pp option[value='employees']").attr('selected', 'selected');
+							});
+							}
+           if(arr.includes("others"))
+			 {
+                 $(document).ready(()=>{
+                                    $("#select_pp option[value='others']").attr('selected', 'selected');
+                                });
+             }
+            if(arr.includes("subscribers"))
+			 {
+                   $(document).ready(()=>{
+								$("#select_pp option[value='subscribers']").attr('selected', 'selected');
+							});
+             }
+
+}
+
+
+
+function Save()
+{
+	 var selected =[];
+	 var ChoixCd = document.getElementById("select_pp");
+	 for(i=0;i<ChoixCd.options.length;i++)
+	 {
+	   if (ChoixCd.options[i].selected)
+		 {
+			 selected.push(ChoixCd.options[i].value );
+		 }
+		}
+
+			 console.log("selected");
+			 console.log(selected);
+			 console.log(performance);
+
+
+
+
+               let formD2 = new FormData();
+               formD2.append("perf", performance);
+               formD2.append("Stakeholders", selected);
+
+
+              fetch("Save_Stakeholders_Keyword_KPI/",{
+              method: "POST",
+              headers: {
+              "X-CSRFToken": CSRFTOKEN
+              },
+              body: formD2
+               })
+                  $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'saved!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "center"
+                                        },
+                                        time: 30000,
+                                    });
+
+              window.location.reload();
+
+}
+
+
+
+
+
+   let Metadata = {{ Metadata | safe }};
+
+    kpicom= document.getElementById("KpiCom");
+    //kpicom.innerHTML = "";
+    var a =0;
+    performance="";
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+$('.comm').click(function(){
+   performance="commercial";
+});
+
+
+$('.class_social').click(function(){
+   performance="social";
+});
+
+
+$('.class_comp').click(function(){
+   performance="competitive";
+});
+
+$('.class_envr').click(function(){
+   performance="environnemental";
+});
+
+
+
+$('.class_org').click(function(){
+   performance="organizational";
+});
+
+$('.class_prod').click(function(){
+   performance="production";
+});
+
+
+
+$('.class_finan').click(function(){
+   performance="financial";
+});
+
+
+
+$('.class_societal').click(function(){
+   performance="societal";
+});
+
+
+
+$('.class_strat').click(function(){
+   performance="strategic";
+});
+
+
+
+$('.class_econ').click(function(){
+   performance="economic";
+});
+
+
+
+
+
+
+
+
+
+
+
+   ListNvxAxes=[];
+   Axes = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ];
+   for(k=0;k<Metadata.length;k++)
+   {
+
+      if(Axes.includes( Metadata[k]["Nom_Axe"])==false)
+      {
+         ListNvxAxes.push(Metadata[k]["Nom_Axe"]);
+      }
+   }
+
+
+
+
+//new axe
+Kpi0=document.getElementById("Kpi0");
+Kpi1=document.getElementById("Kpi1");
+Kpi2=document.getElementById("Kpi2");
+
+Attr0=document.getElementById("Attr0");
+Attr1=document.getElementById("Attr1");
+Attr2=document.getElementById("Attr2");
+
+NomPerfNew=["new1","new2","new3"];
+divIndicator=[Kpi0,Kpi1,Kpi2];
+
+divAttrNew=[Attr0 , Attr1 ,Attr2];
+
+        nbr=ListNvxAxes.length;
+
+        if(nbr==0)
+        {
+
+        }
+        else if(nbr==1){
+           document.getElementById("nouveauAxe2").style.visibility="hidden";
+           document.getElementById("nouveauAxe3").style.visibility="hidden";
+           document.getElementById("nouveauAxe1").style.visibility="visible";
+         }
+       else if(nbr==2){
+          document.getElementById("nouveauAxe2").style.visibility="visible";
+          document.getElementById("nouveauAxe1").style.visibility="visible";
+          document.getElementById("nouveauAxe3").style.visibility="hidden";
+
+         }
+
+        else {
+          document.getElementById("nouveauAxe1").style.visibility="visible";
+          document.getElementById("nouveauAxe2").style.visibility="visible";
+          document.getElementById("nouveauAxe3").style.visibility="visible";
+            }
+
+
+
+if(ListNvxAxes.length>0)
+{
+
+for(m=0;m<ListNvxAxes.length;m++)
+ {
+    array1=[];
+    // liste d'attributs
+    var at=0;
+
+
+    AttributKeyword="";
+    Attribut_com= document.getElementById(divAttrNew[m]);
+    // Attribut_com.innerHTML = "";
+
+
+     document.getElementById(NomPerfNew[m]).innerHTML=ListNvxAxes[m];
+     for(k=0;k<Metadata.length;k++)
+   {
+
+      if(Metadata[k]["Nom_Axe"].trim() == ListNvxAxes[m])
+      {
+            /*console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));*/
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            //console.log(array1);
+            ListDivKpiCom=[];
+
+
+
+
+                //attributs
+                //console.log(Metadata[k]["Liste_Attributes"]);
+                // console.log(typeof(Metadata[k]["Liste_Attributes"]));
+                array2=[];
+                array2=Metadata[k]["Liste_Attributes"].split(',');
+                console.log(array2);
+                //div.className = 'border pad';
+                ListDivAttrCom=[];
+
+
+            if(Metadata[k]["Liste_KPI"].length==0)
+               {
+                div = document.createElement('div');
+                div.style.marginTop = "5%";
+                div.style.marginLeft = "35%";
+                div.innerHTML = "Empty";
+                div.style.color='white';
+                divIndicator[m].appendChild(div);
+               }
+            else{
+                    v2=1;
+                    for(i=0;i<array1.length;i++)
+                   {
+                        div = document.createElement('div');
+                        div.id = array1[i]+m.toString();
+                        ListDivKpiCom.push(div.id);
+                        div.innerHTML = array1[i];
+                        div.style.color='white';
+                        //div.className = 'NewAxe'+i;
+                        divIndicator[m].appendChild(div);
+                        div.style.marginLeft = "3%";
+                  }
+
+              }//else
+
+
+
+            if(Metadata[k]["Liste_Attributes"].length==0)
+               {
+                div = document.createElement('div');
+                div.style.marginTop = "5%";
+                div.style.marginLeft = "35%";
+                div.innerHTML = "Empty";
+                div.style.color='white';
+                divAttrNew[m].appendChild(div);
+               }
+            else{
+                    v2=1;
+                      for(i=0;i<array2.length;i++)
+                    {
+                            div = document.createElement('div');
+                            div.id = array2[i]+m.toString();
+                            ListDivAttrCom.push(div.id);
+                            div.innerHTML =  array2[i];
+                            div.style.color='white';
+                            //div.className = 'divAtt';
+                             console.log(divAttrNew[m]);
+                            divAttrNew[m].appendChild(div);
+                            div.style.marginLeft = "3%";
+                    }
+
+
+
+              }//else
+
+
+
+
+
+      }//if
+
+
+
+
+   }//for
+
+
+
+
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove des keywords
+   divIndicator[m].appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModif";
+    btn1.className = "btn btnModifnvx  btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnSupp";
+    btn2.className = "btn btnSuppnvx btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginTop = "4%";
+
+
+
+   //attributs
+
+
+   div22 = document.createElement('div'); // div2 pour les boutons update et remove des keywords
+   divAttrNew[m].appendChild(div22);
+   var br = document.createElement('br');
+   var btn11 = document.createElement('button');
+    var i2 = document.createElement('i');
+    i2.className = "fa fa-times";
+   // btn1.innerHTML = 'Update';
+    btn11.id = "btnModif";
+    btn11.className = "btn btnSuppAttr btn-danger ";
+    div22.appendChild(br);
+    div22.appendChild(btn11);
+    btn11.appendChild(i2);
+    btn11.style.marginTop = "4%";
+    btn11.style.marginLeft = "75%";
+
+
+
+
+   }//for
+}
+
+
+$('.btnSuppAttr').click(function(){
+alert("btnSuppAttr");
+  });
+
+
+$('.btnModifnvx').click(function(){
+alert("btnModifnvx");
+  });
+
+
+$('.btnSuppnvx').click(function(){
+alert("btnSuppnvx");
+  });
+
+
+
+$('.btnSupp').click(function(){
+  if(a==0)
+    {
+                     $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    //var result = confirm("Want to delete?");
+
+
+                                  var result =         $.confirm({
+                                    title: 'Confirm!',
+                                    content: 'Simple confirm!',
+                                    buttons: {
+                                        confirm: function () {
+                                            $.alert('Confirmed!');
+                                        },
+                                        cancel: function () {
+                                            $.alert('Canceled!');
+                                        },
+                                        somethingElse: {
+                                            text: 'Something else',
+                                            btnClass: 'btn-blue',
+                                            keys: ['enter', 'shift'],
+                                            action: function(){
+                                                $.alert('Something else?');
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                           $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully! !!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "center"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModif').click(function(){
+  if(a==0)
+    {
+     $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'please , select a keyword indicator ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "commercial")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+            ListDivKpiCom=[];
+          for(i=0;i<array1.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array1[i];
+                ListDivKpiCom.push(div.id);
+
+                div.innerHTML = array1[i];
+                div.style.color='white';
+                div.className = 'divKpi0';
+                kpicom.appendChild(div);
+                div.style.marginLeft = "3%";
+
+        }
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   kpicom.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword1";
+    btn1.className = "btn btnModifKeyword1 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword1";
+    btn2.className = "btn btnRemoveKeyword1 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnRemoveKeyword1').click(function(){
+  if(a==0)
+    {
+      $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'please , select a keyword indicator ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "center"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                             $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully! !!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword1').click(function(){
+  if(a==0)
+    {
+       $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'please , select a keyword indicator ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+
+
+function Add_MotcleKpi()
+{
+    var Name_kpi = document.getElementById("KeywordNomKPI").value;
+	console.log("Name_kpi");
+	console.log(Name_kpi);
+
+
+    var selected =[];
+	var ChoixCd = document.getElementById("selected_Perfs");
+	for(i=0;i<ChoixCd.options.length;i++)
+	{
+		if (ChoixCd.options[i].selected)
+		{
+			selected.push(ChoixCd.options[i].value );
+		}
+	}
+
+
+   if(selected.length==0 && Name_kpi.trim()=="")
+    {
+          $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Please fill the Keyword name and make sure you select at least one performance axis ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+
+    }
+
+
+   else if(selected.length==0 && Name_kpi.trim()!="")
+    {
+
+            $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Make sure you select at least one performance axis ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+   }
+
+
+   else if(selected.length!=0 && Name_kpi.trim()=="")
+    {
+       $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Make sure you fill the Keyword name  ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+
+
+   else if(selected.length>=1 && Name_kpi.trim()!="")
+   {
+
+        //verifier l'existance ou non de keyword dans la BDD
+             array1=[];
+             exist=0;
+             arr=[];
+
+
+             for(j=0;j<selected.length;j++)
+               {
+                       for(k=0;k<Metadata.length;k++)
+                       {
+                                          array1=Metadata[k]["Liste_KPI"].split(',');
+                                          for(i=0;i<array1.length;i++)
+                                            {
+                                              arr.push(array1[i].toLowerCase().trim());
+                                            }
+                                          for(i=0;i<arr.length;i++)
+                                            {
+                                                if(arr.includes(Name_kpi.toLowerCase().trim()))
+                                                {
+                                                  exist=1;
+                                                 } break;
+                                            }
+                       }
+                }
+                                 if(exist==1)
+                                        {
+                                       $.notify({
+                                            icon: 'flaticon-alarm-1',
+                                            title: 'warning',
+                                            message: 'keyword already exists in the metadata !!',
+                                        },{
+                                            type: 'warning',
+                                            placement: {
+                                                from: "top",
+                                                align: "right"
+                                            },
+                                            time: 20000,
+                                        });
+                                         }
+
+                                 else //nouveau keyword
+                                   {
+
+                                    //verifier si il n existe pas deja dans l axe
+
+                                    let formD2 = new FormData();
+                                    formD2.append("Name_kpi", Name_kpi);
+                                    formD2.append("perf", selected);
+
+                                    fetch("Add_Keyword_KPI/",{
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formD2
+                                      })
+
+                                    $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'Keyword indicator added successfully!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+                                    window.location.reload();
+                                   }
+     }
+
+}
+
+function UpdateMotCleKpi()
+{
+
+	var NewKeyword = document.getElementById("Keyword_NomKPI").value;
+
+    var selected =[];
+	var ChoixCd = document.getElementById("nomPerf");
+	for(i=0;i<ChoixCd.options.length;i++)
+	{
+		if (ChoixCd.options[i].selected)
+		{
+			selected.push(ChoixCd.options[i].value );
+		}
+	}
+
+   if(selected.length==0 )
+     {
+       if(selected.includes(performance)==false)
+           {
+               selected.push(performance);
+            }
+      }
+   else if(selected.length==1 && selected[0]==performance)
+     {
+       if(selected.includes(performance)==false)
+           {
+               selected.push(performance);
+            }
+      }
+
+    else //if(selected.length>=2 )
+     {
+      console.log(selected);
+     }
+
+    //verifier si y a un changement
+    if(NewKeyword.trim() =="" )
+    {
+
+ $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'Make sure you fill the Keywordindicator name  ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+
+    }
+    if(NewKeyword.trim() == OldKeyword.trim() && selected.length==0 && selected[0]==performance )
+    {
+        $.notify({
+						icon: 'flaticon-alarm-1',
+						title: ' ',
+						message: 'No changes ! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+
+    }
+    else //verifier l'existance
+    {
+            /* array1=[];
+             exist=0;
+             arr=[];
+             for(k=0;k<Metadata.length;k++)
+               {
+                  if(Metadata[k]["Nom_Axe"].trim() == performance)
+                  {
+
+                                  array1=Metadata[k]["Liste_KPI"].split(',');
+                                  console.log("array1");
+                                  console.log(array1);
+                                  for(i=0;i<array1.length;i++)
+                                    {
+                                      arr.push(array1[i].toLowerCase().trim());
+                                    }
+                                  for(i=0;i<arr.length;i++)
+                                    {
+                                        if(arr.includes(NewKeyword.toLowerCase().trim()))
+                                        {
+                                          exist=1;
+                                         }
+                                    }
+                  }
+               }
+                                 if(exist==1)
+                                        {
+                                      $.notify({
+                                            icon: 'flaticon-alarm-1',
+                                            title: 'warning',
+                                            message: 'keyword already exists in the metadata !!',
+                                        },{
+                                            type: 'warning',
+                                            placement: {
+                                                from: "top",
+                                                align: "right"
+                                            },
+                                            time: 20000,
+                                        });
+                                         }
+                                  else // si le newKeyword n existe pas dans le metadonnees on le mets a jour
+                                 {
+                                 */
+                                    alert("updated ");
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", performance);
+                                    formData.append("ListperfKeyword", Listperf_de_Keyword);
+                                    formData.append("selectedPerf", selected);
+                                    formData.append("OldKeyword", OldKeyword);
+                                    formData.append("NewKeyword", NewKeyword);
+
+                                    fetch("Update_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                        })
+                                    //$("#loadkpicom").load(window.location.href+ "#loadkpicom");
+                                    //window.location.reload();
+                                 //}
+
+     }
+}
+
+Listperf_de_Keyword=[];
+//selection  de  mot clé (div cliqué)
+
+
+function Refresh(){
+
+
+
+          window.location.reload();
+
+        // $('#KpiCom').collapse('show');
+         //$('#collapseCommercial').collapse('show');
+      //  $('#multiCollapseExample1').collapse('show');
+
+      // $("#KpiCom").on("show.bs.collapse", function(){ });
+
+   /*  $(document).ready(function() {
+            $("#KpiCom").accordion({
+                collapsible: true
+            });
+        });*/
+
+
+
+alert("Refreshed");
+}
+
+
+
+
+
+$('.divKpi0').click(function(){
+
+
+  performance="commercial";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  console.log("a");
+
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+
+
+  //var childrenDiv=document.getElementsByTagName("div");
+
+  for(i=0;i< ListDivKpiCom.length;i++)
+  {
+
+      if(ListDivKpiCom[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+         document.getElementById(IdBtn).style.fontSize='19';
+         document.getElementById(IdBtn).style.fontWeight='bolder';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpiCom[i]).style.color='white';
+      document.getElementById(ListDivKpiCom[i]).style.fontSize='15';
+      document.getElementById(ListDivKpiCom[i]).style.fontWeight='normal';
+      }
+   }
+
+});
+
+
+
+
+
+    //ajouter bouton  supprimer pour la liste d'attributs
+    var at=0;
+
+
+    AttributKeyword="";
+    Attribut_com= document.getElementById("Attr_Com");
+   // Attribut_com.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "commercial")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivAttrCom=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Attcom";
+                ListDivAttrCom.push(div.id);
+                div.innerHTML =  array2[i];
+                div.style.color='white';
+                div.className = 'divAttr';
+                Attribut_com.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attribut_com.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr";
+    btn2.className = "btn btnRemoveAttr btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "74%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at=IdAttribut;
+  for(i=0;i< ListDivAttrCom.length;i++)
+  {
+
+      if(ListDivAttrCom[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivAttrCom[i]).style.color='white';
+      }
+   }
+
+});
+
+
+$('.btnRemoveAttr').click(function(){
+
+  if(at==0)
+    {
+          $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at).textContent;
+
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "commercial");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                           $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//social
+    Kpisoc= document.getElementById("Kpisoc");
+    //Kpisoc.innerHTML = "";
+    var a =0;
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "social")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+            ListDivKpisoc=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpisoc.push(div.id);
+                div.innerHTML =  array1[i];
+                div.style.color='white';
+                div.className = 'divKpi';
+                Kpisoc.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   Kpisoc.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword2";
+    btn1.className = "btn btnModifKeyword2 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword2";
+    btn2.className = "btn btnRemoveKeyword2 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword2').click(function()
+{
+   if(a==0)
+    {
+$.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                          $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword2').click(function(){
+  if(a==0)
+    {
+   $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi').click(function(){
+   performance="social";
+  IdBtn=event.srcElement.id;
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+  a=IdBtn;
+
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+  for(i=0;i< ListDivKpisoc.length;i++)
+  {
+
+      if(ListDivKpisoc[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpisoc[i]).style.color='white';
+      }
+   }
+
+
+
+});
+
+
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at1=0;
+
+    Attr_soc= document.getElementById("Attr_soc");
+    //Attr_soc.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "social")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivAttrsoc=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Attsoc";
+                ListDivAttrsoc.push(div.id);
+                div.innerHTML = array2[i];
+                div.style.color='white';
+                div.className = 'divAttr1';
+                Attr_soc.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_soc.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr2";
+    btn2.className = "btn btnRemoveAttr2 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr1').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at1=IdAttribut;
+  for(i=0;i< ListDivAttrsoc.length;i++)
+  {
+
+      if(ListDivAttrsoc[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivAttrsoc[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr2').click(function(){
+  if(at1==0)
+    {
+         $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at1).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+
+                                    OldKeyword=document.getElementById(at1).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "social");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",
+                                    {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                       $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+   }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//competitive
+    KpiConc= document.getElementById("KpiConc");
+    //KpiConc.innerHTML = "";
+    var a =0;
+
+
+
+   //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "competitive")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+
+            ListDivKpiConc=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpiConc.push(div.id);
+
+                div.innerHTML =  array1[i];
+                div.style.color='white';
+                div.className = 'divKpi3';
+                KpiConc.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   KpiConc.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword3";
+    btn1.className = "btn btnModifKeyword3 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword3";
+    btn2.className = "btn btnRemoveKeyword3 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword3').click(function()
+{
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                     $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword3').click(function(){
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi3').click(function(){
+  performance="competitive";
+  IdBtn=event.srcElement.id;
+  y=document.getElementById(IdBtn).textContent;
+  a=IdBtn;
+
+
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+  for(i=0;i< ListDivKpiConc.length;i++)
+  {
+      console.log(ListDivKpiConc[i]);
+      if(ListDivKpiConc[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpiConc[i]).style.color='white';
+      }
+   }
+
+
+
+
+});
+
+
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at2=0;
+
+    Attr_concur= document.getElementById("Attr_Conc");
+    //Attr_concur.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "competitive")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivAttrconcr=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Attconc";
+                ListDivAttrconcr.push(div.id);
+                div.innerHTML = array2[i];
+                div.style.color='white';
+                div.className = 'divAttr2';
+                Attr_concur.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_concur.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr3";
+    btn2.className = "btn btnRemoveAttr3 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr2').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at2=IdAttribut;
+  for(i=0;i< ListDivAttrconcr.length;i++)
+  {
+
+      if(ListDivAttrconcr[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivAttrconcr[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr3').click(function(){
+  if(at2==0)
+    {
+          $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at2).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at2).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "competitive");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",
+                                     {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                  $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword attribute removed successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+//environnemental
+    Kpienv= document.getElementById("Kpienv");
+    //Kpienv.innerHTML = "";
+    var a =0;
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "environnemental")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+         ListDivKpiEnv=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpiEnv.push(div.id);
+                div.innerHTML = array1[i];
+                div.style.color='white';
+                div.className = 'divKpi4';
+                Kpienv.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   Kpienv.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword13";
+    btn1.className = "btn btnModifKeyword13 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword13";
+    btn2.className = "btn btnRemoveKeyword13 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword13').click(function()
+{
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                   $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword13').click(function(){
+  if(a==0)
+    {
+    $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi4').click(function(){
+  performance="environnemental";
+  IdBtn=event.srcElement.id;
+
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+   for(i=0;i< ListDivKpiEnv.length;i++)
+  {
+
+      if(ListDivKpiEnv[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpiEnv[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at3=0;
+
+    Attr_envur= document.getElementById("Attr_env");
+    //Attr_envur.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "environnemental")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivAttrenvr=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Attconc";
+                ListDivAttrenvr.push(div.id);
+                div.innerHTML = array2[i];
+                div.style.color='white';
+                div.className = 'divAttr3';
+                Attr_envur.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_envur.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr4";
+    btn2.className = "btn btnRemoveAttr4 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr3').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at3=IdAttribut;
+  for(i=0;i< ListDivAttrenvr.length;i++)
+  {
+
+      if(ListDivAttrenvr[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivAttrenvr[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr4').click(function(){
+  if(at3==0)
+    {
+         $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    rAttributKeyword=document.getElementById(at3).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at3).textContent;
+
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "environnemental");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                 $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword attribute removed successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//organizational
+    KpiOrg= document.getElementById("KpiOrg");
+    //KpiOrg.innerHTML = "";
+    var a =0;
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "organizational")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+
+            ListDivKpieOrg=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpieOrg.push(div.id);
+
+                div.innerHTML = array1[i];
+                div.style.color='white';
+                div.className = 'divKpi5';
+                KpiOrg.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+
+
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   KpiOrg.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword9";
+    btn1.className = "btn btnModifKeyword9 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword9";
+    btn2.className = "btn btnRemoveKeyword9 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword9').click(function()
+{
+  if(a==0)
+    {
+     $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                 $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword indicator removed successfully!!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword9').click(function(){
+  if(a==0)
+    {
+   $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi5').click(function(){
+performance="organizational";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  console.log("a");
+  console.log(a);
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+  for(i=0;i< ListDivKpieOrg.length;i++)
+  {
+
+      if(ListDivKpieOrg[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpieOrg[i]).style.color='white';
+      }
+   }
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at4=0;
+
+    AttrOrg= document.getElementById("Attr_Org");
+    //AttrOrg.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "organizational")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivAttorg=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Attorg";
+                ListDivAttorg.push(div.id);
+                div.innerHTML = array2[i];
+                div.style.color='white';
+                div.className = 'divAttr4';
+                AttrOrg.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    AttrOrg.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr5";
+    btn2.className = "btn btnRemoveAttr5 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr4').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at4=IdAttribut;
+  for(i=0;i< ListDivAttorg.length;i++)
+  {
+
+      if(ListDivAttorg[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivAttorg[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr5').click(function(){
+  if(at4==0)
+    {
+           $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at4).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at4).textContent;
+
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "organizational");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                             $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'keyword attribute removed successfully!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//production
+    Kpiprod= document.getElementById("Kpiprod");
+   // Kpiprod.innerHTML = "";
+    var a =0;
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "production")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+           ListDivKpiProd=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpiProd.push(div.id);
+
+                div.innerHTML = array1[i];
+                div.style.color='white';
+                div.className = 'divKpi6';
+                Kpiprod.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+
+
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   Kpiprod.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword4";
+    btn1.className = "btn btnModifKeyword4 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword4";
+    btn2.className = "btn btnRemoveKeyword4 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword4').click(function()
+{
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                   $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword4').click(function(){
+  if(a==0)
+    {
+   $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword  indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi6').click(function(){
+  performance="production";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  console.log("a");
+  console.log(a);
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+    for(i=0;i< ListDivKpiProd.length;i++)
+  {
+
+      if(ListDivKpiProd[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpiProd[i]).style.color='white';
+      }
+   }
+
+
+});
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at5=0;
+
+    Attr_prod= document.getElementById("Attr_prod");
+    //Attr_prod.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "production")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivProd=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Attprod";
+                ListDivProd.push(div.id);
+                div.innerHTML =array2[i];
+                div.style.color='white';
+                div.className = 'divAttr5';
+                Attr_prod.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_prod.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr6";
+    btn2.className = "btn btnRemoveAttr6 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr5').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at5=IdAttribut;
+  for(i=0;i< ListDivProd.length;i++)
+  {
+
+      if(ListDivProd[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivProd[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr6').click(function(){
+  if(at5==0)
+    {
+         $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at5).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at5).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "production");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                         $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//financial
+    Kpifinan= document.getElementById("Kpifinan");
+   // Kpifinan.innerHTML = "";
+    var a =0;
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "financial")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+
+            ListDivKpifinanc=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpifinanc.push(div.id);
+
+                div.innerHTML = array1[i];
+                div.style.color='white';
+                div.className = 'divKpi7';
+                Kpifinan.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   Kpifinan.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword5";
+    btn1.className = "btn btnModifKeyword5 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword5";
+    btn2.className = "btn btnRemoveKeyword5 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword5').click(function()
+{
+   if(a==0)
+    {
+     $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword  indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                          $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword5').click(function(){
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi7').click(function(){
+  performance="financial";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  console.log("a");
+  console.log(a);
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+
+  for(i=0;i< ListDivKpifinanc.length;i++)
+  {
+
+      if(ListDivKpifinanc[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpifinanc[i]).style.color='white';
+      }
+   }
+
+});
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at6=0;
+
+    Attr_finan= document.getElementById("Attr_finan");
+    //Attr_finan.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "financial")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivFinan=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"Finan";
+                ListDivFinan.push(div.id);
+                div.innerHTML = array2[i];
+                div.style.color='white';
+                div.className = 'divAttr6';
+                Attr_finan.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_finan.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr7";
+    btn2.className = "btn btnRemoveAttr7 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr6').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at6=IdAttribut;
+  for(i=0;i< ListDivFinan.length;i++)
+  {
+
+      if(ListDivFinan[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivFinan[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr7').click(function(){
+  if(at6==0)
+    {
+          $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at6).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at6).textContent;
+
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "financial");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                     $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//societal
+    Kpisocietal= document.getElementById("Kpisocietal");
+   // Kpisocietal.innerHTML = "";
+    var a =0;
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+
+
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "societal")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+         ListDivKpisocietal=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpisocietal.push(div.id);
+
+                div.innerHTML = array1[i];
+                div.style.color='white';
+                div.className = 'divKpi8';
+                Kpisocietal.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   Kpisocietal.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword6";
+    btn1.className = "btn btnModifKeyword6 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword6";
+    btn2.className = "btn btnRemoveKeyword6 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword6').click(function()
+{
+  if(a==0)
+    {
+     $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword6').click(function(){
+  if(a==0)
+    {
+     $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword indicator ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi8').click(function(){
+  performance="societal";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+   for(i=0;i< ListDivKpisocietal.length;i++)
+  {
+
+      if(ListDivKpisocietal[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpisocietal[i]).style.color='white';
+      }
+   }
+
+
+
+});
+
+
+
+
+
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at7=0;
+
+    Attr_societal= document.getElementById("Attr_societal");
+    //Attr_societal.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "societal")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivFinansociet=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"societ";
+                ListDivFinansociet.push(div.id);
+                div.innerHTML = array2[i];
+                div.style.color='white';
+                div.className = 'divAttr7';
+                Attr_societal.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_societal.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr8";
+    btn2.className = "btn btnRemoveAttr8 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr7').click(function(){
+
+  IdAttribut=event.srcElement.id;
+  at7=IdAttribut;
+  for(i=0;i< ListDivFinansociet.length;i++)
+  {
+
+      if(ListDivFinansociet[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivFinansociet[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr8').click(function(){
+  if(at7==0)
+    {
+         $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at7).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at7).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "societal");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                           $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//strategic
+
+    Kpistrat= document.getElementById("Kpistrat");
+    //Kpistrat.innerHTML = "";
+    var a =0;
+
+
+
+   //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "strategic")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+
+           ListDivKpistrat=[];
+            for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpistrat.push(div.id);
+
+                div.innerHTML =array1[i];
+                div.style.color='white';
+                div.className = 'divKpi9';
+                Kpistrat.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   Kpistrat.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword7";
+    btn1.className = "btn btnModifKeyword7 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword7";
+    btn2.className = "btn btnRemoveKeyword7 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword7').click(function()
+{
+   if(a==0)
+    {
+   $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                          $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+                          }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword7').click(function(){
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi9').click(function(){
+  performance="strategic";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  console.log("a");
+  console.log(a);
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+    for(i=0;i< ListDivKpistrat.length;i++)
+  {
+
+      if(ListDivKpistrat[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpistrat[i]).style.color='white';
+      }
+   }
+
+
+
+});
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at8=0;
+
+    Attr_strategic= document.getElementById("Attr_strat");
+    //Attr_strategic.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "strategic")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivstrat=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"strat";
+                ListDivstrat.push(div.id);
+                div.innerHTML =array2[i];
+                div.style.color='white';
+                div.className = 'divAttr8';
+                Attr_strategic.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_strategic.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr9";
+    btn2.className = "btn btnRemoveAttr9 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr8').click(function(){
+  IdAttribut=event.srcElement.id;
+  at8=IdAttribut;
+  for(i=0;i< ListDivstrat.length;i++)
+  {
+
+      if(ListDivstrat[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivstrat[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr9').click(function(){
+  if(at8==0)
+    {
+           $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at8).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at8).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "strategic");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                                    $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//economic
+
+    KpiEcon= document.getElementById("KpiEcon");
+   // KpiEcon.innerHTML = "";
+    var a =0;
+
+    //ajouter bouttons modifier et supprimer pour la liste de mots clés KPI
+
+   for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "economic")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+
+            console.log(Metadata[k]["Liste_KPI"]);
+            console.log(typeof(Metadata[k]["Liste_KPI"]));
+            array1=Metadata[k]["Liste_KPI"].split(',');
+            console.log(array1);
+
+           ListDivKpiecon=[];
+           for(i=0;i<array1.length;i++)
+          {
+                div = document.createElement('div');
+                div.id = array1[i]+i;
+                ListDivKpiecon.push(div.id);
+
+                div.innerHTML =  array1[i];
+                div.style.color='white';
+                div.className = 'divKpi10';
+                KpiEcon.appendChild(div);
+                div.style.marginLeft = "3%";
+
+         }
+
+
+      }
+   }
+
+   div2 = document.createElement('div'); // div2 pour les boutons update et remove
+   KpiEcon.appendChild(div2);
+   var br = document.createElement('br');
+   var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+   // btn1.innerHTML = 'Update';
+    btn1.id = "btnModifKeyword8";
+    btn1.className = "btn btnModifKeyword8 btn-success ";
+    div2.appendChild(br);
+    div2.appendChild(btn1);
+
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id = "btnRemoveKeyword8";
+    btn2.className = "btn btnRemoveKeyword8 btn-danger";
+    //btn2.innerHTML = 'Remove';
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+
+    btn2.style.marginTop = "4%";
+
+
+
+OldKeyword="";
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *delete
+$('.btnRemoveKeyword8').click(function()
+{
+  if(a==0)
+    {
+    $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    var result = confirm("Want to delete?");
+					if (result) {
+                                    OldKeyword=document.getElementById(a).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf",performance );
+                                    formData.append("OldKeyword", OldKeyword);
+                                    fetch("Remove_Keyword_KPI/", {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                             $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+});
+
+
+// quand le concepteur selectionne un keyword de  kpi puis clique sur le boutton *update
+$('.btnModifKeyword8').click(function(){
+  if(a==0)
+    {
+  $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'info',
+						message: 'please , select a keyword ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                        $('#Edit_NomKpi').modal('show');//afficher le formulaire de modif
+                        OldKeyword=document.getElementById(a).textContent;
+                        document.getElementById('Keyword_NomKPI').value =OldKeyword;
+     }
+});
+
+
+
+
+//selection  de  mot clé (div cliqué)
+$('.divKpi10').click(function(){
+  performance="economic";
+  IdBtn=event.srcElement.id;
+  a=IdBtn;
+  console.log("a");
+  console.log(a);
+  y=document.getElementById(IdBtn).textContent;
+  console.log(y);
+
+  document.getElementById('nomPerf').selectedIndex=-1;
+             Listperf_de_Keyword=[];
+             exist=0;
+             list=[];
+             for(k=0;k<Metadata.length;k++)
+               {                  arr=[];
+                                  list=Metadata[k]["Liste_KPI"].split(',');
+
+                                  for(i=0;i<list.length;i++)
+                                    {
+                                      arr.push(list[i].toLowerCase().trim());
+                                    }
+                                if(arr.includes(y.toLowerCase().trim()))
+                                        {
+                                           Listperf_de_Keyword.push(Metadata[k]["Nom_Axe"].trim());
+                                      }
+
+               }
+
+              console.log(Listperf_de_Keyword);
+
+		       var cr, i, j,
+			   values = ["commercial", "social", "competitive" ,"environnemental","organizational","production","financial","societal","strategic","economic" ],
+
+			   options = document.getElementById("nomPerf").options;
+
+			  //pour les performances
+			  for ( i = 0; i < values.length; i++ )
+			  {
+                    for ( k = 0; k < Listperf_de_Keyword.length; k++ )
+                    {
+						if(Listperf_de_Keyword[k].trim()==values[i].trim())
+						 {
+
+							   for ( j = 0, cr = values[i]; j < options.length; j++ )
+							   {
+								 options[j].selected = options[j].selected || cr === options[j].text;
+								 console.log(options[j].selected);
+							   }
+						 }
+                    }
+			  }
+
+
+
+
+  for(i=0;i< ListDivKpiecon.length;i++)
+  {
+
+      if(ListDivKpiecon[i]==IdBtn)
+      {
+         document.getElementById(IdBtn).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivKpiecon[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+    //ajouter bouttons modifier et supprimer pour la liste d'attributs
+    var at9=0;
+
+    Attr_Econ= document.getElementById("Attr_Econ");
+    //Attr_Econ.innerHTML = "";
+    array2=[];
+
+  for(k=0;k<Metadata.length;k++)
+   {
+      if(Metadata[k]["Nom_Axe"].trim() == "economic")
+      {
+            console.log(Metadata[k]["Nom_Axe"].trim());
+            console.log(Metadata[k]["Liste_Attributes"]);
+            console.log(typeof(Metadata[k]["Liste_Attributes"]));
+            array2=Metadata[k]["Liste_Attributes"].split(',');
+            console.log(array2);
+            //div.className = 'border pad';
+            ListDivecon=[];
+
+          for(i=0;i<array2.length;i++)
+        {
+                div = document.createElement('div');
+                div.id = array2[i]+i+"econ";
+                ListDivecon.push(div.id);
+                div.innerHTML =array2[i];
+                div.style.color='white';
+                div.className = 'divAttr9';
+                Attr_Econ.appendChild(div);
+                div.style.marginLeft = "3%";
+        }
+
+      }
+   }
+
+
+    var br = document.createElement('br');
+    div2 = document.createElement('div');
+    Attr_Econ.appendChild(div2);
+
+   /*
+    var btn1 = document.createElement('button');
+    var i0 = document.createElement('i');
+    btn1.className = "btn btnModif btn-success ";
+    div.appendChild(br);
+    div2.appendChild(btn1);
+
+    i0.className = "fa fa-edit";
+    btn1.appendChild(i0);
+    btn1.style.marginTop = "4%";
+    btn1.style.marginLeft = "55%";
+    btn1.style.marginRight = "2%";
+    */
+
+
+    var btn2 = document.createElement('button');
+    var i1 = document.createElement('i');
+    i1.className = "fa fa-times";
+    btn1.id="btnRemoveAttr10";
+    btn2.className = "btn btnRemoveAttr10 btn-danger";
+    div2.appendChild(btn2);
+    btn2.appendChild(i1);
+    btn2.style.marginLeft = "64%";
+    btn2.style.marginTop = "4%";
+
+
+//selection  de l'attribut
+$('.divAttr9').click(function(){
+  IdAttribut=event.srcElement.id;
+  at9=IdAttribut;
+  for(i=0;i< ListDivecon.length;i++)
+  {
+
+      if(ListDivecon[i]==IdAttribut)
+      {
+         document.getElementById(IdAttribut).style.color='yellow';
+      }
+
+      else
+      {
+
+      document.getElementById(ListDivecon[i]).style.color='white';
+      }
+   }
+
+});
+
+
+
+$('.btnRemoveAttr10').click(function(){
+  if(at9==0)
+    {
+          $.notify({
+						icon: 'flaticon-alarm-1',
+						title: 'Warning',
+						message: 'You must select the attribute to delete! ',
+					},{
+						type: 'info',
+						placement: {
+							from: "top",
+							align: "right"
+						},
+						time: 20000,
+					});
+    }
+    else {
+                    AttributKeyword=document.getElementById(at9).textContent;
+                    var result = confirm(" Want to delete the attribute : '" +AttributKeyword + "'?");
+					if (result) {
+                                    OldKeyword=document.getElementById(at9).textContent;
+                                    let formData = new FormData();
+                                    formData.append("NomPerf", "economic");
+                                    formData.append("OldKeyword", AttributKeyword);
+                                    fetch("Remove_Keyword_Attribute/",  {
+                                    method: "POST",
+                                    headers: {
+                                    "X-CSRFToken": CSRFTOKEN
+                                    },
+                                    body: formData
+                                    })
+                                              $.notify({
+                                        icon: 'flaticon-alarm-1',
+                                        title: 'success',
+                                        message: 'removed!!!',
+                                    },{
+                                        type: 'success',
+                                        placement: {
+                                            from: "top",
+                                            align: "right"
+                                        },
+
+                                        time: 20000,
+                                    });
+
+                                }
+
+         }
+
+});
+
+
+
+	</script>
+
+
+{% endblock javascripts %}

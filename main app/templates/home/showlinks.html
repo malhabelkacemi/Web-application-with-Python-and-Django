@@ -1,0 +1,159 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+			
+	<div class="content">
+		<div class="panel-header bg-secondary-gradient" >
+			<div class="page-inner py-5" >
+				<div class="page-header">
+					<h4 class="page-title">Evaluation process</h4>
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="#">
+								<i class="flaticon-home"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<h5>Evaluation</h5>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<h5>Aggregated evaluation</h5>
+						</li>
+					</ul>
+				</div>
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="text-white pb-2 fw-bold">Performance Evaluation</h2>
+						<h5 class="text-white op-7 mb-2">Link display</h5>
+					</div>
+					<div class="ml-md-auto py-2 py-md-0">
+						
+							<div class="card-action">
+								<button id="pdff" class="btn btn-success" ">Export results</button>
+								&nbsp; &nbsp;
+								
+							</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-inner mt--5" id="target">
+			
+			{% if linkintra %}
+				<div class="row row-card-no-pd" >
+					<div class="col-md-12" >
+						
+							
+							<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+								<thead >
+									<tr >
+										<th scope="col" colspan="5">Intra Performance section</th>
+									</tr>
+									<tr >
+										<th scope="col" style="border: 0 0 0 3px solid #000;">First indicator</th>
+										<th scope="col">indicator's axis</th>
+										<th scope="col">Second indicator</th>
+										<th scope="col">indicator's axis</th>
+										<th scope="col">Link type between the two indicators</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									{% for i in linkintra %}
+										<tr>
+											<td style="border: 3px solid;">{{ i.kpi1 }}</td>
+											<td>{{ i.perf1 }}</td>
+											<td>{{ i.kpi2 }}</td>
+											<td>{{ i.perf2 }}</td>
+											<td>{{ i.lien }}</td>
+											
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						
+						
+							
+						
+					</div>
+				
+				</div>
+			{% endif %}
+			{% if linkinter %}
+				<div class="row row-card-no-pd" >
+					<div class="col-md-12" >
+						<p></p>
+							<table class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+								<thead>
+									<tr>
+										<th scope="col" colspan="5">Inter Performance section</th>
+									</tr>
+									<tr>
+										<th scope="col">First indicator</th>
+										<th scope="col">indicator's axis</th>
+										<th scope="col">Second indicator</th>
+										<th scope="col">indicator's axis</th>
+										<th scope="col">Link type between the two indicators</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									{% for i in linkinter %}
+										<tr>
+											<td>{{ i.kpi1 }}</td>
+											<td>{{ i.perf1 }}</td>
+											<td>{{ i.kpi2 }}</td>
+											<td>{{ i.perf2 }}</td>
+											<td>{{ i.lien }}</td>
+											
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+					</div>
+				</div>
+			{% endif %}
+			
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<script>
+		document.getElementById("pdff").onclick = function() {myFunction()};
+		
+		
+		function myFunction(){
+			console.log("hello");
+
+			const elemnt = document.getElementById("target");
+			var opt = {
+					margin:       0,
+					filename:     'myfile.pdf',
+					image:        { type: 'png', quality: 0.98 },
+					html2canvas:  { scale: 3 },
+					jsPDF:        { unit: 'in', format: 'a2', orientation: 'landscape' }
+						};
+			html2pdf().set(opt).from(elemnt).save();
+			
+			
+			
+		}
+</script>
+{% endblock javascripts %}

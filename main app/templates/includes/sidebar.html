@@ -1,0 +1,298 @@
+		<!-- Sidebar -->
+		<div class="sidebar sidebar-style-2" data-background-color="dark2">	
+			<div class="sidebar-wrapper scrollbar scrollbar-inner" ">
+				<div class="sidebar-content">
+
+				{% if request.user.is_authenticated %}
+
+				<div class="user">
+					<div class="avatar-sm float-left mr-2">
+						<img src="/static/assets/img/blogpost.jpg" alt="..." class="avatar-img rounded-circle">
+					</div>
+					<div class="info" style="color:white;">
+						<a data-toggle="collapse" href="#collapseExample" aria-expanded="true" style="color:white;">
+							<span style="color:white;" >
+								{{ request.user.username }}  #{{ request.user.first_name}}
+								<span class="user-level"  style="color:#E1DDF0;">
+									{{ request.user.email }}
+								</span>
+								<span class="caret" style="color:white;"></span>
+							</span>
+						</a>
+						<div class="clearfix"></div>
+
+						<div class="collapse in" id="collapseExample" >
+							<ul class="nav">
+								
+								<li >
+									<a href="{% url 'logout' %}">
+										<span class="link-collapse"style="display : inline ; color:white;" ><i class="icon-logout"></i>&nbsp;&nbsp;&nbsp;  Logout</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+
+
+
+				{% if  user.first_name == "admin"   %}
+
+
+					<ul class=" nav nav-primary">
+					<li class="nav-item ">
+						<a data-toggle="collapse" href="#tabless">
+							<i style="color:white;" class="fas icon-people"></i>
+							<p style="color:white;">Manage</p>
+							<span class="caret" style="color:white;"></span>
+						</a>
+						<div class="collapse" id="tabless" style="color:white;">
+							<ul class="nav nav-collapse" style="color:white;">
+								<li >
+								   <a href="/Table_Users.html">
+										<span class="sub-item" style="color:white;">Users</span>
+									</a>
+								</li>
+								<li>
+							</li>
+							</ul></div></li></ul>
+
+
+
+
+
+				<ul class="nav nav-primary"  style="color:white;">
+
+						<li class="nav-item " style="color:white; ">
+							<a href="/index.html"  class="ml-2"  > <span style="color:white;" class="fa flaticon-home "> &nbsp;&nbsp; &nbsp;&nbsp;<span style="color:white;font-weight:normal; font-size: 16px" >Home</span></span></a>
+						</li>
+				</ul>
+
+
+
+
+
+
+
+
+			{% elif  user.first_name == "analyst"  %}
+
+					<ul class="list-unstyled nav nav-primary">
+						<li class="nav-section">
+						<span class="sidebar-mini-icon">
+							<i class="fa fa-ellipsis-h"></i>
+						</span>
+						<h4 class="text-section" style="color:black; ">Components</h4>
+						</li>
+
+					<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+						<a data-toggle="collapse" href="#tables">
+							<i style="color:white;" class="fas flaticon-settings"></i>
+							<p style="color:white;">Setting</p>
+							<span class="caret" style="color:white;"></span>
+						</a>
+						<div class="collapse" id="tables" style="color:white;">
+							<ul class="nav nav-collapse" style="color:white;">
+								<li >
+								   <a href="/Configuration.html">
+										<span class="sub-item" style="color:white;">Metadata</span>
+									</a>
+								</li>									<li>
+								   <a href="/TableReferentiel.html">
+										<span class="sub-item" style="color:white;">Indicators repostory </span>
+									</a>
+								</li>
+								
+								
+								
+								
+									
+								
+								
+
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<ul class="nav nav-primary">
+
+					<li class="nav-item ">
+					<a data-toggle="collapse" href="#t999">
+						<i style="color:white;" class="flaticon-database"></i>
+						<p style="color:white; ">Modify operator's DB</p>
+						<span class="caret" style="color:white;"></span>
+					</a>
+					<div class="collapse" id="t999">
+						<ul style="color:white;" class="nav nav-collapse">
+							<li>
+								<a  href="{% url 'addclass' %}">
+									<span class="sub-item" style="color:white;">Add class</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="{% url 'addattribut' %}">
+									<span class="sub-item" style="color:white;">Add attribute</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</ul>
+
+
+				<ul class="nav nav-primary">
+
+						<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+						<a data-toggle="collapse" href="#t1">
+							<i style="color:white;" class="flaticon-database"></i>
+							<p style="color:white; ">Stakeholders's Data</p>
+							<span class="caret" style="color:white;"></span>
+						</a>
+						<div class="collapse" id="t1">
+							<ul style="color:white;" class="nav nav-collapse">
+								<li>
+									<a  href="/Data_Particuliers.html">
+										<span class="sub-item" style="color:white;">Particuliers</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="/Data_Entreprises.html">
+										<span class="sub-item" style="color:white;">Companies</span>
+									</a>
+								</li>
+								<li>
+									<a href="/Data_Employes.html">
+										<span class="sub-item" style="color:white;">Employees</span>
+									</a>
+								</li>
+								<li>
+									<a href="/Data_Concurrents.html">
+										<span class="sub-item" style="color:white;">Competitors</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+
+
+
+
+
+				<ul class="nav nav-primary"  style="color:white;">
+
+						<li class="nav-item " style="color:white; ">
+							<a href="/index.html"  class="ml-2"  > <span style="color:white;" class="fa flaticon-home "> &nbsp;&nbsp; &nbsp;&nbsp;<span style="color:white;font-weight:normal; font-size: 16px" >Home</span></span></a>
+						</li>
+				</ul>
+
+
+
+
+				{% else %}    <!-- si user == decideur -->
+						<ul class="nav nav-primary">
+							<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Components</h4>
+						</li>
+
+						<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+							<a data-toggle="collapse" href="#t5">
+								<i class="fas fa-pen-fancy"></i>
+								<p>Fix values</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="t5">
+								<ul class="nav nav-collapse">
+								
+									<li>
+										<a href="{% url 'fixthresholds' %}">
+											<span class="sub-item">fix Tresholds</span>
+										</a>
+									</li>
+									
+								</ul>
+							</div>
+						</li>
+					</ul>
+
+
+				<ul class="nav nav-primary">
+					<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+							<a data-toggle="collapse" href="#t6">
+								<i class="fas fa-chart-line"></i>
+								<p>Performance Evaluation</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="t6">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="{% url 'redirectlocal' %}">
+											<span class="sub-item">local Evaluation </span>
+										</a>
+									</li>
+
+									<li>
+										<a href="{% url 'redirectagg' %}">
+											<span class="sub-item">Aggregated Evaluation </span>
+										</a>
+									</li>
+										<li>
+										<a href="{% url 'redirectglob' %}">
+											<span class="sub-item">Global Evaluation </span>
+										</a>
+									</li>
+
+								</ul>
+							</div>
+						</li>
+						</ul>
+
+					<!--<ul class="nav nav-primary">
+							<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+									<a data-toggle="collapse" href="#t7">
+										<i class="fas fa-table"></i>
+										<p>add in bdd</p>
+										<span class="caret"></span>
+									</a>
+									<div class="collapse" id="t7">
+										<ul class="nav nav-collapse">
+											<li>
+												<a href="{% url 'addattribut' %}">
+													<span class="sub-item">Add attribut</span>
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'addclass' %}">
+													<span class="sub-item">Add class</span>
+												</a>
+											</li>
+		
+											
+		
+										</ul>
+									</div>
+								</li>
+					</ul>-->
+
+					
+
+
+					{% endif %}
+
+
+
+    	{% else %}
+					<ul class="nav nav-primary">
+
+					</ul>
+				{% endif %}	
+				</div>
+			</div>
+		</div>
+        <!-- End Sidebar -->
+        

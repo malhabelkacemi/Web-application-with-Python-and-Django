@@ -1,0 +1,504 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Datatables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner"  style="background-color:#FFFFFF">
+
+
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card" style=" background-image: linear-gradient(to bottom right,rgba(96,55,183,30),#26A2A7,gray,#26A2A7">
+						<div class="card-header" >
+							<h3 class="card-title   " >
+							  <ul class="breadcrumbs"  style="color:white;">
+									Stakeholders's Data
+								    <li class="separator"> <i class="flaticon-right-arrow"  style="color:yellow;"></i>
+									</li>competitors
+							  </ul>
+
+							</h3>
+
+<div class="row mb-4 mt-4">
+<div style="margin-left:3%;width:40%;" class="TwoDivs" >
+<div data-toggle="collapse"  id = "Telecharg" class="comm  ml-5  " data-target="#download" href="#download" aria-expanded="false">
+<i style="color:orange;margin-left:4%;font-size: 20px;" class="fas fa-file-download fa-1x"></i>		<span style=" color:black; font-size: 16px;"> Download the data  </span>
+
+</div>
+
+<div class="collapse mt-4"   id="download"  aria-controls="download">
+								<div class="print ">
+								 <a href="/static/FilesJson/Concurrent.json" download="Competitors JSON">
+								     <button  id="printBtn" class="btn btn-outline-warning" type="button">Format JSON</button>
+								 </a>
+								 <a href="/static/FilesCSV/Concurrents.csv" download="Competitors CSV">
+								     <button  id="printBtn2" class="btn btn-outline-success" type="button">Format CSV</button>
+								 </a>
+							    </div>
+
+</div>
+</div>
+
+<div style="margin-left:3%;width:40%;" class="TwoDivs">
+<div data-toggle="collapse"  id = "import" class="comm  ml-5  " data-target="#Importer" href="#Importer" aria-expanded="false">
+<i style="color:red;margin-left:4%; font-size: 20px;" class="fas fa-file-import fa-1x "></i>	<span style=" color:black; font-size: 16px;"> Import data into database : </span>
+
+</div>
+
+<div class="collapse "   id="Importer"  aria-controls="Importer">
+
+					 <div class="mt-4 ml-1 ">
+
+									<input type="file"  size="70" id="monChampFichier" name="fichiers"  />
+
+								   <button id="BtnImport" class="btn btn-outline-warning  "style="margin-left:6%; width:22%;" onclick = "ImportData()" >
+									Import
+								   </button>
+					  </div>
+ </div>
+ </div>
+
+
+
+						</div>
+						<div class="card-body" style="background-color:dark">
+
+							<div class="table-responsive" >
+
+								<table id="TableReferentiel" class="display table table-striped table-hover pb-3"  style="color:black; background-color: white ; font-size: 18px; font-weight:500"  >
+
+									<thead>
+										<tr style="background-color:#A9A9F5">
+											<th style="color:black;font-weight:bolder; font-size: 15px">ID</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Name</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Number of subscribers(current year)</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">CA(current year)</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Reputation(current year)</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Number of subscribers</th>
+											<th>CA</th>
+											<th>Reputation</th>
+										</tr>
+									</tfoot>
+									<tbody>
+
+										{% for x in ListConcurrents %}
+										<tr>
+											<td class="tdd" > {{ x.idConc }}  </td>
+											<td class="tdd" > {{ x.Nom_Concurrent }}  </td>
+											<td  class="tdd"> {{ x.Nombre_Abonnes.2022}} </td>
+											<td  class="tdd"> {{ x.CA_Conc.2022}}</td>
+											<td  class="tdd">{{ x.Reputation.2022 }} /5 </td>
+										<!-- <td >
+												<div class="form-button-action">
+												<button class="btn btn-link btn-success btn-lg" data-toggle="modal" data-target="#Edit">
+														<i class="fa fa-edit"></i>
+													</button>
+												</div>
+											</td>
+											<td>
+										      <div class="form-button-action">
+													<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" id="remove">
+														<i class="fa fa-times"></i>
+													</button>
+												</div>
+											</td> -->
+										</tr>
+										{% endfor %}
+
+								</tbody>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+						<!--
+						<div class="col-md-5 "  >
+						<div class="card-body" >
+							<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header no-bd"  style="background-color:#191970">
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1">
+												Edit</span>
+												<span class="fw-light p1">
+													  Competitor
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" onclick="Quitter()" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "  style="background-color:black">
+
+						<div class=" container-fluid px-1  mx-auto">
+
+						 <form class="form-card ">
+							<div class="row justify-content-between text-left">
+								<div class="form-group col-sm-7 flex-column d-flex col-md-8 mx-auto">
+
+	 								<label class="form-control-label ">Name </label>
+									<input type="text" id="Name">
+
+	 								<label class="form-control-label ">Total Subscribers (current year) </label>
+									<input type="text" id="Nbr_Subscribes">
+
+	 								<label class="form-control-label ">CA (current year) </label>
+									<input type="text" id="CA">
+
+	 								<label class="form-control-label ">Reputation (current year) </label>
+									<input type="text" id="Reputation">
+
+
+								</div>
+
+
+							</div>
+							<div class="col-md-3 mx-auto">
+							 <button type="button" data-toggle="tooltip"  id="btnModif"  class="btn btn-outline-success"  onclick = "Update()" >Update </button>
+
+							</div>
+						 </form>
+
+
+						</div></div></div></div></div></div></div> -->
+
+
+
+
+
+
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<style>
+
+
+#p1 {
+	 font-size: 18px ;
+	 font-weight: 30;
+	 color:white;
+}
+div .TwoDivs:hover
+{
+ color:white;
+ font-weight: bolder;
+}
+
+
+
+
+</style>
+	<script src="/static/assets/js/setting-demo2.js"></script>
+	<script >
+
+
+ const getCookie = (name) => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+    };
+
+  const CSRFTOKEN = getCookie("csrftoken");
+
+
+
+
+
+
+
+
+	let form1 = new FormData();
+	fetch("_Export_Concurrent_To_JSON/",
+	{
+		method: "POST",
+		headers: {
+		"X-CSRFToken": CSRFTOKEN
+		},
+		body: form1
+		})
+
+
+	let formm2 = new FormData();
+
+	fetch("_Export_Concurrents_To_CSV/",
+	{
+		method: "POST",
+		headers: {
+		"X-CSRFToken": CSRFTOKEN
+		},
+		body: formm2
+		})
+
+
+
+
+SelectedFiles=[];
+window.onload = function()
+{
+    // On récupère notre champ
+    var monChampFichier = document.getElementById('monChampFichier');
+
+			// La fonction ci-dessous est exécutée lorsque
+			// des fichiers sont sélectionnés
+			monChampFichier.onchange = function()
+			{
+				// On récupère la liste des fichiers
+				var listeFichiers = monChampFichier.files;
+
+				// On peut parcourir la liste des fichiers
+
+
+				for ( var i = 0; i < listeFichiers.length; i ++ )
+				{
+
+					var unFichier = listeFichiers[i];
+					SelectedFiles.push(listeFichiers[i].name);
+					/*var message = 'Le fichier "' + unFichier.name + '" a été sélectionné!';
+					message += "\nIl a une taille de " + unFichier.size + " octets.";*/
+				}
+			};
+
+
+};
+
+
+function ImportData()
+ {
+
+			if(SelectedFiles.length==0)
+			{
+				 alert("Please select a file!!!");
+			}
+			else if(SelectedFiles.length==1)
+			{
+			    extension=SelectedFiles.toString().split(".");
+				extension=extension[1];
+
+				if(extension.toLowerCase()=="json")
+				{
+					let form1 = new FormData();
+					form1.append("SelectedFile", SelectedFiles);
+					fetch("_ImportDataConcurrents_Json/",
+					  {
+						method: "POST",
+						headers: {
+						"X-CSRFToken": CSRFTOKEN
+						},
+						body: form1
+						})
+				      alert("Data successfully imported into database!!!");
+			    }
+				else
+				{
+				   alert("Please check the format or structure of selected file ,it must be in json format");
+				}
+			}
+			else
+		 	 {
+			   alert("you should select only one file");
+   			  }
+
+ }
+
+
+
+
+
+
+
+
+
+
+
+  /*
+  var table = document.getElementById("TableReferentiel"),rIndex,cIndex;
+  table.rows[table.rows.length-1].deleteCell(-1);
+
+
+            // table rows
+            for(var i = 1; i < table.rows.length-1; i++)
+            {
+                // row cells
+                for(var j = 5; j <= 6; j++) //table.rows[i].cells.length
+                {
+                    table.rows[i].cells[j].onclick = function()
+                    {
+
+								rIndex = this.parentElement.rowIndex;
+								cIndex = this.cellIndex;
+								rIndex=rIndex-1;
+								console.log("Row : "+rIndex+" , Cell : "+cIndex);
+
+
+								// Supprimer
+								 if(cIndex==6)
+										{
+										   var result = confirm("Want to delete?");
+											if (result) {
+
+                                           id=table.rows[rIndex+1].cells[0].innerHTML;
+	                                       id=id.trim();
+	                                       console.log(id);
+
+
+
+											let form2 = new FormData();
+
+											//old values
+											form2.append("id", id);
+											console.log("removed");
+
+											fetch("Delete_Concurrent/",
+											{
+												method: "POST",
+												headers: {
+													"X-CSRFToken": CSRFTOKEN
+												},
+												body: form2
+											})
+											}
+											console.log("terminé");
+											window.location.reload();
+										 }
+
+    				if(cIndex==5){  //Update
+
+						   id=table.rows[rIndex+1].cells[0].innerHTML;
+                           id=id.trim();
+
+						   Name=table.rows[rIndex+1].cells[1].innerHTML;
+						   console.log(Name);
+						   document.getElementById('Name').value = Name.trim();
+
+	        	           Nbr_Subscribes=table.rows[rIndex+1].cells[2].innerHTML;
+	        	           console.log(Nbr_Subscribes);
+	        	           document.getElementById('Nbr_Subscribes').value = Nbr_Subscribes.trim();
+
+	        	           CA=table.rows[rIndex+1].cells[3].innerHTML;
+	        	           console.log(CA);
+	        	           document.getElementById('CA').value = CA.trim();
+
+						   Reputation=table.rows[rIndex+1].cells[4].innerHTML;
+						   console.log(Reputation);
+						   document.getElementById('Reputation').value = Reputation.trim();
+
+ 					 }
+
+				         else {
+
+							input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value; }
+
+						     input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+
+				  };
+                }
+            }}
+  */
+
+function Update(){
+
+						   Name2=document.getElementById('Name').value;
+						   console.log(Name2);
+
+	        	           Nbr_Subscribes2=document.getElementById('Nbr_Subscribes').value;
+	        	           console.log(Nbr_Subscribes2);
+
+						   CA2=document.getElementById('CA').value;
+						   console.log(CA2);
+
+	        	           Reputation2=document.getElementById('Reputation').value;
+						   console.log(Reputation2);
+
+                         	let formData = new FormData();
+
+                                //old values
+
+								formData.append("id", id);
+								//formData.append("Name", Name);
+
+								//new values
+								formData.append("Name2", Name2);
+								formData.append("Nbr_Subscribes2", Nbr_Subscribes2);
+								formData.append("CA2", CA2);
+								formData.append("Reputation2", Reputation2);
+
+
+								fetch("Update_Concurrent/", {
+								method: "POST",
+								headers: {
+								"X-CSRFToken": CSRFTOKEN
+								},
+								body: formData
+									})
+							    window.location.reload();
+}
+
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#TableReferentiel').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+		});
+	</script>
+
+{% endblock javascripts %}

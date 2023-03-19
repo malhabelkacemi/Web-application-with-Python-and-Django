@@ -1,0 +1,527 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Datatables {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner"  style="background-color:#FFFFFF">
+
+
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card" style=" background-image: linear-gradient(to bottom right,rgba(96,55,183,30),#26A2A7,gray,#26A2A7">
+						<div class="card-header">
+
+							<h3 class="card-title   " >
+							  <ul class="breadcrumbs"  style="color:white;">
+									Stakeholders's Data
+								    <li class="separator"> <i class="flaticon-right-arrow"  style="color:yellow;"></i>
+									</li>Subscribers (companies)
+							  </ul>
+
+							</h3>
+
+
+<div class="row mb-4 mt-4">
+<div style="margin-left:3%;width:40%;" class="TwoDivs" >
+<div data-toggle="collapse"  id = "Telecharg" class="comm  ml-5  " data-target="#download" href="#download" aria-expanded="false">
+<i style="color:orange;margin-left:4%;font-size: 20px;" class="fas fa-file-download fa-1x"></i>		<span style=" color:black; font-size: 16px;"> Download the data  </span>
+
+</div>
+
+<div class="collapse mt-4"   id="download"  aria-controls="download">
+								<div class="print ">
+								 <a href="/static/FilesJson/Entreprises.json" download="Companies JSON">
+								     <button  id="printBtn" class="btn btn-outline-warning" type="button"  >Format JSON</button>
+								 </a>
+								 <a href="/static/FilesCSV/Entreprises.csv" download="Companies CSV">
+								     <button  id="printBtn2" class="btn btn-outline-success" type="button" >Format CSV</button>
+								 </a>
+							    </div>
+</div>
+</div>
+
+<div style="margin-left:8%;width:45%;" class="TwoDivs ">
+<div data-toggle="collapse"  id = "import" class="comm ml-5   " data-target="#Importer" href="#Importer" aria-expanded="false">
+
+<i style="color:red;margin-left:4%; font-size: 20px;" class="fas fa-file-import fa-1x "></i><span style=" color:black; font-size: 16px;"> Import data into database : </span>
+
+
+</div>
+
+<div class="collapse "   id="Importer"  aria-controls="Importer">
+
+					 <div class="mt-4 ml-1 ">
+
+									<input type="file"  size="70" id="monChampFichier" name="fichiers"  />
+
+								   <button id="BtnImport" class="btn btn-outline-warning  "style="margin-left:6%; width:22%;" onclick = "ImportData()" >
+									Import
+								   </button>
+					  </div>
+ </div>
+ </div>
+
+
+
+		</div>
+						<div class="card-body" >
+
+							<div class="table-responsive" >
+
+								<table id="TableReferentiel" class="display table table-striped table-hover pb-3" style="color:black; background-color: white ; font-size: 18px; font-weight:500"  >
+
+									<thead>
+										<tr style="background-color:#A9A9F5">
+											<th style="color:black;font-weight:bolder; font-size: 15px">ID</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Phone Number</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Name</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Date </th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Contract Date</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Wilaya</th>
+											<th style="color:black;font-weight:bolder; font-size: 15px">Incomes</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>ID</th>
+											<th>Number</th>
+											<th>Name</th>
+											<th>Date </th>
+											<th>Contract Date</th>
+											<th>Wilaya</th>
+											<th>Incomes</th>
+										</tr>
+									</tfoot>
+									<tbody>
+
+
+										{% for x in ListAbonnes_Entr %}
+										<tr>
+											<td class="tdd" > {{ x.idEntr }}  </td>
+											<td class="tdd" > {{ x.Numero_Tel }}  </td>
+											<td  class="tdd"> {{ x.Client_Nom }} </td>
+											<td  class="tdd"> {{ x.Date }}</td>
+											<td  class="tdd"> {{ x.Contrat.Date_Debut_Contrat }}</td>
+											<td  class="tdd">{{ x.Adresse }} </td>
+											<td  class="tdd"> {{ x.CA}} </td>
+											<!--<td >
+												<div class="form-button-action">
+												<button class="btn btn-link btn-success btn-lg" data-toggle="modal" data-target="#Edit">
+														<i class="fa fa-edit"></i>
+													</button>
+												</div>
+											</td>
+											<td>
+										      <div class="form-button-action">
+													<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" id="remove">
+														<i class="fa fa-times"></i>
+													</button>
+												</div>
+											</td>-->
+										</tr>
+										{% endfor %}
+
+
+
+								</tbody>
+
+								</table>
+							</div>
+
+
+						<!--
+
+						<div class="col-md-5 ">
+						<div class="card-body" >
+							<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-hidden="true">
+						  	  <div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header no-bd"  style="background-color:#191970">
+											<h5 class="modal-title">
+												<span class="fw-mediumbold p1">
+												Edit</span>
+												<span class="fw-light p1">
+													  Subscriber(Company)
+												</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" onclick="Quitter()" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body "  style="background-color:black">
+
+						<div class=" container-fluid px-1  mx-auto">
+
+						 <form class="form-card ">
+							<div class="row justify-content-between text-left">
+								<div class="form-group col-sm-7 flex-column d-flex col-md-8 mx-auto">
+
+	 								<label class="form-control-label ">Phone number </label>
+									<input type="text" id="NumTel">
+
+	 								<label class="form-control-label ">Last Name </label>
+									<input type="text" id="LastName">
+
+	 								<label class="form-control-label ">Date of birth</label>
+									<input type="date" id="Date_birth">
+
+	 								<label class="form-control-label ">Contract Date </label>
+									<input type="date" id="Contract_Date">
+
+									<label class="form-control-label ">Wilaya</label>
+									<input type="text" id="Wilaya">
+								</div>
+
+
+							</div>
+							<div class="col-md-3 mx-auto">
+							 <button type="button" data-toggle="tooltip"  id="btnModif"  class="btn btn-outline-success"  onclick = "Update()" >Update </button>
+
+							</div>
+						 </form>
+
+
+						</div></div></div></div></div></div></div> -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<style>
+
+
+
+#p1 {
+	 font-size: 18px ;
+	 font-weight: 30;
+	 color:white;
+}
+div .TwoDivs:hover
+{
+ color:white;
+ font-weight: bolder;
+}
+
+
+}
+
+
+
+</style>
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+	<script >
+
+
+
+ const getCookie = (name) => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+    };
+
+  const CSRFTOKEN = getCookie("csrftoken");
+
+
+	let form1 = new FormData();
+	fetch("_Export_Entreprises_To_JSON/",
+	{
+		method: "POST",
+		headers: {
+		"X-CSRFToken": CSRFTOKEN
+		},
+		body: form1
+		})
+
+
+	let formm2 = new FormData();
+
+	fetch("_Export_Entreprises_To_CSV/",
+	{
+		method: "POST",
+		headers: {
+		"X-CSRFToken": CSRFTOKEN
+		},
+		body: formm2
+		})
+
+
+
+SelectedFiles=[];
+window.onload = function()
+{
+    // On récupère notre champ
+    var monChampFichier = document.getElementById('monChampFichier');
+
+			// La fonction ci-dessous est exécutée lorsque
+			// des fichiers sont sélectionnés
+			monChampFichier.onchange = function()
+			{
+				// On récupère la liste des fichiers
+				var listeFichiers = monChampFichier.files;
+
+				// On peut parcourir la liste des fichiers
+
+
+				for ( var i = 0; i < listeFichiers.length; i ++ )
+				{
+
+					var unFichier = listeFichiers[i];
+					SelectedFiles.push(listeFichiers[i].name);
+					/*var message = 'Le fichier "' + unFichier.name + '" a été sélectionné!';
+					message += "\nIl a une taille de " + unFichier.size + " octets.";*/
+				}
+			};
+
+
+};
+
+
+
+function ImportData()
+ {
+
+			if(SelectedFiles.length==0)
+			{
+				 alert("Please select a file!!!");
+			}
+			else if(SelectedFiles.length==1)
+			{
+
+
+			    extension=SelectedFiles.toString().split(".");
+				extension=extension[1];
+
+				if(extension.toLowerCase()=="json")
+				{
+					let form1 = new FormData();
+					form1.append("SelectedFile", SelectedFiles);
+					fetch("_ImportDataCompanies_Json/",
+					  {
+						method: "POST",
+						headers: {
+						"X-CSRFToken": CSRFTOKEN
+						},
+						body: form1
+						})
+					alert("Data successfully imported into database!!!");
+			  	}
+				else
+				{
+				 alert("Please check the format or structure of selected file ,it must be in json format");
+				}
+			  }
+			else
+		 	 {
+			   alert("you should select only one file");
+   			  }
+
+ }
+
+
+
+
+
+
+
+
+/*
+  var table = document.getElementById("TableReferentiel"),rIndex,cIndex;
+  table.rows[table.rows.length-1].deleteCell(-1);
+
+
+            // table rows
+            for(var i = 1; i < table.rows.length-1; i++)
+            {
+                // row cells
+                for(var j = 7; j <= 8 ; j++) //table.rows[i].cells.length
+                {
+                    table.rows[i].cells[j].onclick = function()
+                    {
+
+								rIndex = this.parentElement.rowIndex;
+								cIndex = this.cellIndex;
+								rIndex=rIndex-1;
+								console.log("Row : "+rIndex+" , Cell : "+cIndex);
+
+
+								// Supprimer kpi
+								 if(cIndex==8)
+										{
+										   var result = confirm("Want to delete?");
+											if (result) {
+                                           id=table.rows[rIndex+1].cells[0].innerHTML;
+										   console.log(id);
+
+
+											let form2 = new FormData();
+
+											//old values
+											form2.append("id", id);
+											console.log("removed");
+
+											fetch("Delete_Entreprise/",
+											{
+												method: "POST",
+												headers: {
+													"X-CSRFToken": CSRFTOKEN
+												},
+												body: form2
+											})
+											}
+											window.location.reload();
+										 }
+
+    				if(cIndex==7){  //Update
+
+						   id=table.rows[rIndex+1].cells[0].innerHTML;
+						   console.log(id);
+
+
+						   NumTel=table.rows[rIndex+1].cells[1].innerHTML;
+						   console.log(NumTel);
+						   document.getElementById('NumTel').value = NumTel.trim();
+
+
+						   LastName=table.rows[rIndex+1].cells[2].innerHTML;
+						   console.log(LastName);
+						   document.getElementById('LastName').value = LastName.trim();
+
+
+	        	           Date_birth=table.rows[rIndex+1].cells[3].innerHTML;
+	        	           console.log(Date_birth);
+	        	           console.log(typeof(Date_birth));
+	        	           document.getElementById('Date_birth').value = Date_birth.trim();
+
+
+						   Contract_Date=table.rows[rIndex+1].cells[4].innerHTML;
+						   console.log(Contract_Date);
+						   document.getElementById('Contract_Date').value = Contract_Date.trim();
+
+
+	        	           Wilaya=table.rows[rIndex+1].cells[5].innerHTML;
+	        	           console.log(Wilaya);
+	        	           document.getElementById('Wilaya').value = Wilaya.trim();
+
+
+ 					 }
+
+				         else {
+
+							input.onblur=function(){
+							var td = input.parentElement;
+							var org=input.parentElement.getAttribute('data-text');
+							var current_Text=this.value; }
+
+						     input.onkeypress = function() {
+							   if(event.keyCode==13) {
+								this.blur();
+							   }}
+
+				  };
+                }
+            }}
+
+*/
+function Update(){
+
+
+						   NumTel2=document.getElementById('NumTel').value;
+						   console.log(NumTel2);
+
+						   LastName2=document.getElementById('LastName').value;
+						   console.log(LastName2);
+
+	        	           Date_birth2=document.getElementById('Date_birth').value;
+						   console.log(Date_birth2);
+
+						   Contract_Date2=document.getElementById('Contract_Date').value;
+						   console.log(Contract_Date2);
+
+	        	           Wilaya2=document.getElementById('Wilaya').value ;
+						   console.log(Wilaya2);
+
+                         	let formData = new FormData();
+
+                                //old values
+								formData.append("id", id);
+								//formData.append("NumTel", NumTel);
+
+								//new values
+								formData.append("NumTel2", NumTel2);
+								formData.append("LastName2", LastName2);
+								formData.append("Date_birth2", Date_birth2);
+								formData.append("Contract_Date2", Contract_Date2);
+								formData.append("Wilaya2", Wilaya2);
+
+
+								fetch("Update_Entreprise/", {
+								method: "POST",
+								headers: {
+								"X-CSRFToken": CSRFTOKEN
+								},
+								body: formData
+									})
+							    window.location.reload();
+}
+
+
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#TableReferentiel').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+		});
+	</script>
+
+{% endblock javascripts %}

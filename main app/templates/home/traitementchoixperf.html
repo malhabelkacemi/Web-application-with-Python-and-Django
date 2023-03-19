@@ -1,0 +1,227 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+			
+	<div class="content">
+		<div class="panel-header bg-secondary-gradient">
+			<div class="page-inner py-5">
+				<div class="page-header">
+					<h4 class="page-title">Evaluation process</h4>
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="#">
+								<i class="flaticon-home"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Evaluation</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Aggregated evaluation</a>
+						</li>
+					</ul>
+				</div>
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="text-white pb-2 fw-bold">Indicators list</h2>
+						<h5 class="text-white op-7 mb-2">Select indicators to evaluate and the period of the evaluation</h5>
+					</div>
+					<div class="ml-md-auto py-2 py-md-0">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-inner mt--5">
+			<div class="row mt--2">
+				<div class="col-md-6">
+                    
+				</div>
+				<div class="col-md-6">
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+                    
+				</div>
+				<div class="col-md-4">
+
+				</div>
+			</div>
+			<div class="row row-card-no-pd bg-testing">
+				<div class="col-md-12">
+					<form method="post" action="{% url 'evalperf' %}">
+						{% csrf_token %}
+						{% for x in lkpi%}
+							
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input" type="checkbox" value= "{{ x|safe }}" name= "{{ x|safe }}">
+									<span class="form-check-sign"> {{ x|safe }} </span>
+								</label>
+							</div>
+							
+						{% endfor %}
+						
+						
+
+						
+						
+					
+				</div>
+               
+			</div>
+			<div class="row row-card-no-pd bg-testing">
+				<div class="col-md-4">
+					<div class="form-group form-floating-label">
+						<input id="inputFloatingLabel2" type="number" name="ddp" class="form-control input-solid" required>
+						<label for="inputFloatingLabel2" class="placeholder">Period's start year</label>
+					</div>
+
+				</div>
+				<div class="col-md-4">
+					<div class="form-group form-floating-label">
+						<input id="inputFloatingLabel2" type="number"  name="dfp" class="form-control input-solid" required>
+						<label for="inputFloatingLabel2" class="placeholder">Period's end year</label>
+					</div>
+
+				</div>
+				<div class="col-md-4">
+
+				</div>
+				
+			</div>
+			<div class="card-action">
+				<button type="submit" class="btn btn-primary">Evaluate</button>
+				&nbsp; &nbsp;
+				
+			</div>
+		</form>
+			<div class="row">
+				<div class="col-md-6">
+
+				</div>
+				<div class="col-md-6">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo.js"></script>
+	<script src="/static/assets/js/demo.js"></script>
+
+	<script>
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:60,
+			maxValue:100,
+			width:7,
+			text: 5,
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:70,
+			maxValue:100,
+			width:7,
+			text: 36,
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:40,
+			maxValue:100,
+			width:7,
+			text: 12,
+			colors:['#f1f1f1', '#F25961'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		})
+
+		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+
+		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+			type: 'bar',
+			data: {
+				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+				datasets : [{
+					label: "Total Income",
+					backgroundColor: '#ff9e27',
+					borderColor: 'rgb(23, 125, 255)',
+					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false,
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							display: false //this will remove only the label
+						},
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}],
+					xAxes : [ {
+						gridLines : {
+							drawBorder: false,
+							display : false
+						}
+					}]
+				},
+			}
+		});
+
+		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
+			type: 'line',
+			height: '70',
+			width: '100%',
+			lineWidth: '2',
+			lineColor: '#ffa534',
+			fillColor: 'rgba(255, 165, 52, .14)'
+		});
+	</script>
+
+{% endblock javascripts %}

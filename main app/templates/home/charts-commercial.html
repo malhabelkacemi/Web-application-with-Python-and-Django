@@ -1,0 +1,446 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Charts {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<h4 class="page-title">Chart.js</h4>
+			<div class="page-category">Simple yet flexible JavaScript charting for designers & developers. Please checkout their <a href="https://www.chartjs.org/" target="_blank">full documentation</a>.</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Line Chart</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="lineChart"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Bar Chart</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="barChart"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Pie Chart</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="pieChart" style="width: 50%; height: 50%"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Doughnut Chart</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="doughnutChart" style="width: 50%; height: 50%"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Multiple Line Chart</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="multipleLineChart"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card">
+
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="card">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+	<script>
+		var lineChart = document.getElementById('lineChart').getContext('2d'),
+		barChart = document.getElementById('barChart').getContext('2d'),
+		pieChart = document.getElementById('pieChart').getContext('2d'),
+		doughnutChart = document.getElementById('doughnutChart').getContext('2d'),
+
+
+		multipleLineChart = document.getElementById('multipleLineChart').getContext('2d');
+		var currentPalette = "neon";
+
+
+		function chartColors(palette) {
+			if (!palette) palette = currentPalette;
+			currentPalette = palette;
+
+			/*Gradients
+			  The keys are percentage and the values are the color in a rgba format.
+			  You can have as many "color stops" (%) as you like.
+			  0% and 100% is not optional.*/
+			var gradient;
+			switch (palette) {
+				case 'cool':
+					gradient = {
+						0: [255, 255, 255, 1],
+						20: [220, 237, 200, 1],
+						45: [66, 179, 213, 1],
+						65: [26, 39, 62, 1],
+						100: [0, 0, 0, 1]
+					};
+					break;
+				case 'warm':
+					gradient = {
+						0: [255, 255, 255, 1],
+						20: [254, 235, 101, 1],
+						45: [228, 82, 27, 1],
+						65: [77, 52, 47, 1],
+						100: [0, 0, 0, 1]
+					};
+					break;
+				case 'neon':
+					gradient = {
+						0: [255, 255, 255, 1],
+						20: [255, 236, 179, 1],
+						45: [232, 82, 133, 1],
+						65: [106, 27, 154, 1],
+						100: [0, 0, 0, 1]
+					};
+					break;
+			}
+
+			//Get a sorted array of the gradient keys
+			var gradientKeys = Object.keys(gradient);
+			gradientKeys.sort(function(a, b) {
+				return +a - +b;
+			});
+
+			//Find datasets and length
+			var chartType = myDoughnutChart.config.type;
+			switch (chartType) {
+				case "pie":
+				case "doughnut":
+					var datasets = myDoughnutChart.config.data.datasets[0];
+					var setsCount = datasets.data.length;
+					break;
+				case "bar":
+				case "line":
+					var datasets = chart.config.data.datasets;
+					var setsCount = datasets.length;
+					break;
+			}
+
+			//Calculate colors
+			var chartColors = [];
+			for (i = 0; i < setsCount; i++) {
+				var gradientIndex = (i + 1) * (100 / (setsCount + 1)); //Find where to get a color from the gradient
+				for (j = 0; j < gradientKeys.length; j++) {
+					var gradientKey = gradientKeys[j];
+					if (gradientIndex === +gradientKey) { //Exact match with a gradient key - just get that color
+						chartColors[i] = 'rgba(' + gradient[gradientKey].toString() + ')';
+						break;
+					} else if (gradientIndex < +gradientKey) { //It's somewhere between this gradient key and the previous
+						var prevKey = gradientKeys[j - 1];
+						var gradientPartIndex = (gradientIndex - prevKey) / (gradientKey - prevKey); //Calculate where
+						var color = [];
+						for (k = 0; k < 4; k++) { //Loop through Red, Green, Blue and Alpha and calculate the correct color and opacity
+							color[k] = gradient[prevKey][k] - ((gradient[prevKey][k] - gradient[gradientKey][k]) * gradientPartIndex);
+							if (k < 3) color[k] = Math.round(color[k]);
+						}
+						chartColors[i] = 'rgba(' + color.toString() + ')';
+						break;
+					}
+				}
+			}
+
+			//Copy colors to the chart
+			for (i = 0; i < setsCount; i++) {
+				switch (chartType) {
+					case "pie":
+					case "doughnut":
+						if (!datasets.backgroundColor) datasets.backgroundColor = [];
+						datasets.backgroundColor[i] = chartColors[i];
+						if (!datasets.borderColor) datasets.borderColor = [];
+						datasets.borderColor[i] = "rgba(255,255,255,1)";
+						break;
+					case "bar":
+						datasets[i].backgroundColor = chartColors[i];
+						datasets[i].borderColor = "rgba(255,255,255,0)";
+						break;
+					case "line":
+						datasets[i].borderColor = chartColors[i];
+						datasets[i].backgroundColor = "rgba(255,255,255,0)";
+						break;
+				}
+			}
+
+			//Update the chart to show the new colors
+			myDoughnutChart.update();
+		}
+
+		var myLineChart = new Chart(lineChart, {
+			type: 'line',
+			data: {
+				labels: ,
+				datasets: [{
+					label: "Number of costummers",
+					borderColor: "#1d7af3",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#1d7af3",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: 
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'bottom',
+					labels : {
+						padding: 10,
+						fontColor: '#1d7af3',
+					}
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+
+		var myBarChart = new Chart(barChart, {
+			type: 'bar',
+			data: {
+				labels: {{ labels|safe }},
+				datasets : [{
+					label: "Sales",
+					backgroundColor: 'rgb(23, 125, 255)',
+					borderColor: 'rgb(23, 125, 255)',
+					data: {{ CA|safe }},
+				}],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero:true
+						}
+					}]
+				},
+			}
+		});
+
+		var myPieChart = new Chart(pieChart, {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: {{ nbr_client|safe }},
+					backgroundColor :["#1d7af3","#f3545d","#fdaf4b"],
+					borderWidth: 0
+				}],
+				labels: {{ labels|safe }}
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position : 'bottom',
+					labels : {
+						fontColor: 'rgb(154, 154, 154)',
+						fontSize: 11,
+						usePointStyle : true,
+						padding: 20
+					}
+				},
+				pieceLabel: {
+					render: 'percentage',
+					fontColor: 'white',
+					fontSize: 14,
+				},
+				tooltips: false,
+				layout: {
+					padding: {
+						left: 20,
+						right: 20,
+						top: 20,
+						bottom: 20
+					}
+				}
+			}
+		})
+
+		var myDoughnutChart = new Chart(doughnutChart, {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: {{nbr_client|safe}}
+
+				}],
+
+				labels: {{ labels|safe }}
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend : {
+					position: 'bottom'
+				},
+				layout: {
+					padding: {
+						left: 20,
+						right: 20,
+						top: 20,
+						bottom: 20
+					}
+				}
+			}
+
+		});
+		chartColors();
+
+
+
+
+
+
+		var myMultipleLineChart = new Chart(multipleLineChart, {
+			type: 'line',
+			data: {
+				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				datasets: [{
+					label: "Python",
+					borderColor: "#1d7af3",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#1d7af3",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [30, 45, 45, 68, 69, 90, 100, 158, 177, 200, 245, 256]
+				},{
+					label: "PHP",
+					borderColor: "#59d05d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#59d05d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [10, 20, 55, 75, 80, 48, 59, 55, 23, 107, 60, 87]
+				}, {
+					label: "Ruby",
+					borderColor: "#f3545d",
+					pointBorderColor: "#FFF",
+					pointBackgroundColor: "#f3545d",
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 1,
+					pointRadius: 4,
+					backgroundColor: 'transparent',
+					fill: true,
+					borderWidth: 2,
+					data: [10, 30, 58, 79, 90, 105, 117, 160, 185, 210, 185, 194]
+				}]
+			},
+			options : {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					position: 'top',
+				},
+				tooltips: {
+					bodySpacing: 4,
+					mode:"nearest",
+					intersect: 0,
+					position:"nearest",
+					xPadding:10,
+					yPadding:10,
+					caretPadding:10
+				},
+				layout:{
+					padding:{left:15,right:15,top:15,bottom:15}
+				}
+			}
+		});
+
+
+
+		var myLegendContainer = document.getElementById("myChartLegend");
+
+		// generate HTML legend
+		myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
+
+		// bind onClick event to all LI-tags of the legend
+		var legendItems = myLegendContainer.getElementsByTagName('li');
+		for (var i = 0; i < legendItems.length; i += 1) {
+			legendItems[i].addEventListener("click", legendClickCallback, false);
+		}
+
+	</script>
+
+{% endblock javascripts %}

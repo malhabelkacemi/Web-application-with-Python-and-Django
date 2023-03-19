@@ -1,0 +1,452 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Charts {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="panel-header bg-secondary-gradient">
+			<div class="page-inner py-5" >
+				<div class="page-header">
+					<h4 class="page-title">Evaluation process</h4>
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="#">
+								<i class="flaticon-home"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Evaluation</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Aggregated evaluation</a>
+						</li>
+					</ul>
+				</div>
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="text-white pb-2 fw-bold"> Performance Evaluation</h2>
+						<h5 class="text-white op-7 mb-2">Results</h5>
+					</div>
+					
+					<div class="ml-md-auto py-2 py-md-0">
+						<form method="post" action="{% url 'showlinks' %}">
+							{% csrf_token %}
+							<div class="card-action">
+								<button type="submit" class="btn btn-success" ">Export results</button>
+								&nbsp; &nbsp;
+								
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-inner mt--5" >
+			
+			
+				<div class="row row-card-no-pd bg-testing" >
+					
+					<div class="col-md-12" >
+						
+						
+						<h4 class="text-white pb-2 fw-bold">Results for Intra performance relation</h4>
+						
+					</div>
+				</div>
+			
+			
+				{% for j in intra%}
+					<div class="row">
+						
+						{% for i in j%}
+							<div class="col-md-6">
+								<div class="card" style="background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);">
+									<div class="card-header">
+										<div class="card-title" id="id{{i.id}}"></div>
+									</div>
+									<div class="card-body">
+										<div class="chart-container">
+											<canvas id="mychart{{i.id}}"></canvas>
+										</div>
+									</div>
+									<div class="card-footer">
+										<p ></p>
+										<h6 class="fw-bold text-uppercase text-danger op-8" id="idl{{i.id}}"></h6>
+										
+										<details style="cursor: pointer;">
+											<p ></p>
+											<div class="table-responsive ">
+												<table class=" table table-bordered-bd-success" >
+													<thead>
+														<tr >
+															<th rowspan="2" >Indicator's Name</th>
+															<th rowspan="2">Indicator's performance</th>
+															
+															<th colspan="2">Seuil
+																
+															</th>
+															<th colspan="2">Ecart</th>
+															<th rowspan="2"> Link type</th>
+															
+															
+														</tr>
+														<tr>
+															<td>
+																Year
+															</td>
+															<td>Value</td>
+															<td>
+																Year
+															</td>
+															<td>Value</td>
+														</tr>
+														
+													</thead>
+													<tbody>
+														<tr>
+															<td rowspan="{{i.sdata|length|add:"1"}}">{{i.nom_kpi}}</td>
+															<td rowspan="{{i.sdata|length|add:"1"}}">{{i.perf}}</td>
+															<td >
+																-
+															</td>
+															<td>
+																-
+															</td>
+															<td >
+																-
+															</td>
+															<td>
+																-
+															</td>
+
+															
+															<td rowspan="{{i.sdata|length|add:"1"}}">1</td>
+															
+
+														</tr>
+														{% for key, value in i.sseuil.items  %}
+															
+
+																<tr>
+																	<td >
+																		{{key}}
+																	</td>
+																	<td>
+																		{{value}}
+																	</td>
+																	<td >
+																		{{key}}
+																	</td>
+																	<td id ="id{{i.id}}n{{key}}">
+																		
+																	</td>
+																</tr>
+															
+														{% endfor %}
+														
+													
+													</tbody>
+												</table>
+											</div>
+										</details>
+
+									</div>
+									
+								</div>
+							</div>
+						{% endfor %}
+					
+					</div>
+				{% endfor%}
+			
+			{% if inter %}
+				<div class="row row-card-no-pd " >
+						
+					<div class="col-md-12" >
+						
+						<h4 class="text-white pb-2 fw-bold">Results for Inter performance relation</h4>
+						
+					</div>
+				</div>
+				{% for k in inter%}
+					<div class="row">
+						{% for i in k %}
+							<div class="col-md-6">
+								<div class="card" style="background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);">
+									<div class="card-header">
+										<div class="card-title" id="id{{i.id}}"></div>
+									</div>
+									<div class="card-body">
+										<div class="chart-container">
+											<canvas id="mychart{{i.id}}"></canvas>
+										</div>
+									</div>
+									<div class="card-footer">
+										<p ></p>
+										<h6 class="fw-bold text-uppercase text-danger op-8" id="idl{{i.id}}"></h6>
+										
+										<details style="cursor: pointer; ">
+											<p ></p>
+											<div class="table-responsive">
+												<table class="table table-bordered table-bordered-bd-default" >
+													<thead>
+														<tr>
+															<th rowspan="2">Indicator's Name</th>
+															<th rowspan="2">Indicator's performance</th>
+															
+															<th colspan="2">Seuil
+																
+															</th>
+															<th colspan="2">Ecart</th>
+															<th rowspan="2"> Link type</th>
+															
+															
+														</tr>
+														<tr>
+															<td>
+																Year
+															</td>
+															<td>Value</td>
+															<td>
+																Year
+															</td>
+															<td>Value</td>
+														</tr>
+														
+													</thead>
+													<tbody>
+														<tr>
+															<td rowspan="{{i.sdata|length|add:"1"}}">{{i.nom_kpi}}</td>
+															<td rowspan="{{i.sdata|length|add:"1"}}">{{i.perf}}</td>
+															<td >
+																-
+															</td>
+															<td>
+																-
+															</td>
+															<td >
+																-
+															</td>
+															<td>
+																-
+															</td>
+
+															
+															<td rowspan="{{i.sdata|length|add:"1"}}">1</td>
+															
+
+														</tr>
+														{% for key, value in i.sseuil.items  %}
+															
+
+																<tr>
+																	<td >
+																		{{key}}
+																	</td>
+																	<td>
+																		{{value}}
+																	</td>
+																	<td >
+																		{{key}}
+																	</td>
+																	<td id ="id{{i.id}}m{{key}}">
+																		
+																	</td>
+																</tr>
+															
+														{% endfor %}
+														
+													
+													</tbody>
+												</table>
+											</div>
+										</details>
+
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			{% endif %}
+			<form method="post" action="{% url 'showlinks' %}">
+				{% csrf_token %}
+				<div class="card-action">
+					<button type="submit" class="btn btn-success">View links</button>
+					&nbsp; &nbsp;
+					
+				</div>
+			</form>
+		</div>
+	</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    <script>
+        itra = {{ loopra|safe }};
+		iter = {{ looper|safe }};
+		li = {{ test|safe }};
+		laster = iter[(iter.length)-1];
+		lastra = itra[(itra.length)-1];
+		
+		lil = li.join().split(',');
+		lintra = {{ intra|safe }};
+		linter = {{ inter|safe }};
+		
+		
+		g=0;
+		d=0;
+        for ( var i = 0; i<= lastra; i+=4){
+			
+			j= i+2;
+			cra=lintra[g];
+			still=cra[0];
+			stilld=still["sdata"];
+			
+			stillf=still["fct"];
+			stillv= Object.values(stilld);
+			stillk= Object.keys(stilld);
+			stilln=still["nom_kpi"];
+			stillp=still["perf"];
+			stilll=still["lien"];
+
+			stille=still["ecart"];
+			stillev=Object.values(stille);
+			stillek=Object.keys(stille);
+			stillev=stillev.reverse();
+			stillek=stillek.reverse();
+			
+			stilllife= 'Link with the KPI on the right:   '+stilll;
+
+			
+
+			life=cra[1];
+			lifed=life["sdata"];
+			lifef=life["fct"];
+			lifev=Object.values(lifed);
+			lifek=Object.keys(lifed);
+			lifen=life["nom_kpi"];
+			lifep=life["perf"];
+			lifel=life["lien"];
+			lifee=life["ecart"];
+			lifeev=Object.values(lifee);
+			lifeek=Object.keys(lifee);
+			lifeev=lifeev.reverse();
+			lifeek=lifeek.reverse();
+			
+
+            eval('ctx'+i+'= document.getElementById(\'mychart'+i+'\').getContext(\'2d\')');
+            
+            eval('chart'+i+'= new Chart(ctx'+i+', {type: \'line\',data: {labels: stillk, datasets: [{label: stilln,borderColor: "#316151",pointBorderColor: "#FFF",pointBackgroundColor: "#1d7af3",pointBorderWidth: 2,pointHoverRadius: 4,pointHoverBorderWidth: 1,pointRadius: 4,backgroundColor: \'transparent\',fill: true,borderWidth: 2,data: stillv}]},options : { responsive: true,maintainAspectRatio: false,legend: {position: \'bottom\',labels : {padding: 10,fontColor: \'#1d7af3\',}},tooltips: {bodySpacing: 4,mode:"nearest",intersect: 0,position:"nearest",xPadding:10,yPadding:10,caretPadding:10},layout:{padding:{left:15,right:15,top:15,bottom:15}}}})');
+			
+			eval('ctx'+j+'= document.getElementById(\'mychart'+j+'\').getContext(\'2d\')');
+            
+            eval('chart'+j+'= new Chart(ctx'+j+', {type: \'line\',data: {labels: lifek, datasets: [{label: lifen,borderColor: "#316151",pointBorderColor: "#FFF",pointBackgroundColor: "#1d7af3",pointBorderWidth: 2,pointHoverRadius: 4,pointHoverBorderWidth: 1,pointRadius: 4,backgroundColor: \'transparent\',fill: true,borderWidth: 2,data: lifev}]},options : { responsive: true,maintainAspectRatio: false,legend: {position: \'bottom\',labels : {padding: 10,fontColor: \'#1d7af3\',}},tooltips: {bodySpacing: 4,mode:"nearest",intersect: 0,position:"nearest",xPadding:10,yPadding:10,caretPadding:10},layout:{padding:{left:15,right:15,top:15,bottom:15}}}})');
+			g+=1;
+			document.getElementById('id'+i).innerHTML = stillp;
+			document.getElementById("id"+j).innerHTML = lifep;
+			
+			console.log(stillek.length)
+			len=stillek.length;
+			for (var b= 0; b<len; b++ ){
+				console.log(b);
+				w=stillek.pop();
+				
+				document.getElementById('id'+i+'n'+w).innerHTML = stillev.pop();
+				
+			}
+			len=lifeek.length;
+			for (var b= 0; b<len; b++ ){
+				
+				w=lifeek.pop();
+				
+				document.getElementById("id"+j+'n'+w).innerHTML = lifeev.pop();
+				
+			}
+			
+			
+
+		}
+		
+		if (iter.length > 0){
+			
+			for ( var i = 1; i<= laster; i+=4){
+				j= i+2;
+				cer=linter[d];
+				drunk=cer[0];
+				drunkd=drunk["sdata"];
+				
+				drunkf=drunk["fct"];
+				drunkv= Object.values(drunkd);
+				drunkk= Object.keys(drunkd);
+				drunkn=drunk["nom_kpi"];
+				drunkp=drunk["perf"];
+				drunkl=drunk["lien"];
+				drunke=drunk["ecart"];
+				drunkev=Object.values(drunke);
+				drunkek=Object.keys(drunke);
+				drunkev=drunkev.reverse();
+				drunkek=drunkek.reverse();
+
+
+				drunktalk= 'Link with the KPI on the right:   '+drunkl;
+
+				talk=cer[1];
+				talkd=talk["sdata"];
+				talkf=talk["fct"];
+				talkv= Object.values(talkd);
+				talkk= Object.keys(talkd);
+				talkn=talk["nom_kpi"];
+				talkp=talk["perf"];
+				talke=talk["ecart"];
+				talkev=Object.values(talke);
+				talkek=Object.keys(talke);
+				talkev=talkev.reverse();
+				talkek=talkek.reverse();
+
+				eval('ctx'+i+'= document.getElementById(\'mychart'+i+'\').getContext(\'2d\')');
+				
+				eval('chart'+i+'= new Chart(ctx'+i+', {type: \'line\',data: {labels: drunkk, datasets: [{label: drunkn,borderColor: "#316151",pointBorderColor: "#FFF",pointBackgroundColor: "#1d7af3",pointBorderWidth: 2,pointHoverRadius: 4,pointHoverBorderWidth: 1,pointRadius: 4,backgroundColor: \'transparent\',fill: true,borderWidth: 2,data: drunkv}]},options : { responsive: true,maintainAspectRatio: false,legend: {position: \'bottom\',labels : {padding: 10,fontColor: \'#1d7af3\',}},tooltips: {bodySpacing: 4,mode:"nearest",intersect: 0,position:"nearest",xPadding:10,yPadding:10,caretPadding:10},layout:{padding:{left:15,right:15,top:15,bottom:15}}}})');
+				
+				eval('ctx'+j+'= document.getElementById(\'mychart'+j+'\').getContext(\'2d\')');
+				
+				eval('chart'+j+'= new Chart(ctx'+j+', {type: \'line\',data: {labels: talkk, datasets: [{label: talkn,borderColor: "#316151",pointBorderColor: "#FFF",pointBackgroundColor: "#1d7af3",pointBorderWidth: 2,pointHoverRadius: 4,pointHoverBorderWidth: 1,pointRadius: 4,backgroundColor: \'transparent\',fill: true,borderWidth: 2,data: talkv}]},options : { responsive: true,maintainAspectRatio: false,legend: {position: \'bottom\',labels : {padding: 10,fontColor: \'#1d7af3\',}},tooltips: {bodySpacing: 4,mode:"nearest",intersect: 0,position:"nearest",xPadding:10,yPadding:10,caretPadding:10},layout:{padding:{left:15,right:15,top:15,bottom:15}}}})');
+				d+=1;
+				document.getElementById('id'+i).innerHTML = drunkp;
+				document.getElementById("id"+j).innerHTML = talkp;
+				
+				len=drunkek.length;
+				for (var b= 0; b<len; b++ ){
+					console.log(b);
+					w=drunkek.pop();
+					
+					document.getElementById('id'+i+'m'+w).innerHTML = drunkev.pop();
+					
+				}
+				len=talkek.length;
+				for (var b= 0; b<len; b++ ){
+					
+					w=talkek.pop();
+					
+					document.getElementById("id"+j+'m'+w).innerHTML = talkev.pop();
+					
+				}
+				}
+			}
+
+
+
+    </script>
+
+{% endblock javascripts %}
